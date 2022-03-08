@@ -12,19 +12,21 @@ Row {
     anchors.fill: parent
 
     ColumnLayout {
-        width: 150
+        width: 200
         height: parent.height
-        RowLayout {
-            Layout.fillWidth: true
+        Item {
             Layout.alignment: Qt.Align
             
-            CheckBox {
-                text: "Města"
-                checkable: true
-            }
-            CheckBox {
-                text: "Obce"
-                checkable: true
+            Row {
+                spacing: 5
+                CheckBox {
+                    text: "Města"
+                    checkable: true
+                }
+                CheckBox {
+                    text: "Obce"
+                    checkable: true
+                }
             }
         }
 
@@ -39,19 +41,30 @@ Row {
         }
     }
 
-    Column {
-        width: 150
+    ColumnLayout {
+        width: 300
         height: parent.height
         
         Rectangle {
             width: parent.width
-            height: parent.height
+            height: 300
+            Layout.alignment: Qt.AlignVCenter
             border.width: 1
             border.color: "black"
             radius: 5
             Label {
                 text: "tady bude mapa"
             }
+        }
+    }
+
+    Column {
+        width: 200
+        height: parent.height
+        padding: 5
+
+        Label {
+            text: "Seznam měst:"
         }
     }
 }
