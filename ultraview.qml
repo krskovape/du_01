@@ -82,18 +82,32 @@ Row {
     }
 
     ColumnLayout {
-        width: 300
+        width: 500
         height: parent.height
         
         Rectangle {
             width: parent.width
-            height: 300
+            height: 500
             Layout.alignment: Qt.AlignVCenter
             border.width: 1
             border.color: "black"
             radius: 5
-            Label {
-                text: "tady bude mapa"
+            
+            Plugin {
+                id: mapPlugin
+                name: "osm"
+                PluginParameter {
+                    name:"osm.mapping.custom.host"
+                    value:"https://maps.wikimedia.org/osm/"
+                }
+            }
+
+            Map {
+                width: parent.width
+                height: parent.height
+
+                plugin: mapPlugin
+                activeMapType: supportedMapTypes[supportedMapTypes.length - 1]
             }
         }
     }
