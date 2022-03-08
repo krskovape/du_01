@@ -8,7 +8,8 @@ import typing
 import sys
 import json
 
-VIEW_URL = "ultraview.qml"
+#VIEW_URL = "ultraview.qml"
+VIEW_URL = "superview.qml"
 CITY_LIST_FILE = "souradnice.json"
 
 class FiltrModel(QAbstractListModel):
@@ -33,9 +34,9 @@ class FiltrModel(QAbstractListModel):
 app = QGuiApplication(sys.argv)
 view = QQuickView()
 url = QUrl(VIEW_URL)
-tasklist_model = FiltrModel(CITY_LIST_FILE)
+filtr_model = FiltrModel(CITY_LIST_FILE)
 ctxt = view.rootContext()
-ctxt.setContextProperty('taskListModel',tasklist_model)
+ctxt.setContextProperty('filtrModel',filtr_model)
 view.setSource(url)
 view.show()
 app.exec_()
