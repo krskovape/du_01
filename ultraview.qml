@@ -19,6 +19,7 @@ Row {
             Layout.alignment: Qt.Align
             
             Column {
+                spacing: 15
                 Row {
                     spacing: 5
                     CheckBox {
@@ -31,9 +32,42 @@ Row {
                     }
                 }
 
-                Slider {
+                Label {
+                    text: "Počet obyvatel"
+                }
+
+                RangeSlider {
                     from: 1
                     to: 100
+                    first.value: 10
+                    second.value: 90
+                }
+
+                Row {
+                    spacing: 100
+                    //tohle budou TextInputy provázané na value z RangeSlider
+                    Label {
+                        text: "Od: 1"
+                    }
+                    Label {
+                        text: "Do: 100"
+                    }
+                }
+
+                Label {
+                    text: "Kraj"
+                }
+
+                ComboBox {
+                    model: ["Praha", "Středočeský", "Královéhradecký"]
+                }
+
+                Label {
+                    text: "Okresy"
+                }
+
+                ComboBox {
+                    model: ["Rychnov n. Kn.", "Trutnov", "Jičín", "Náchod"]
                 }
             }
         }
