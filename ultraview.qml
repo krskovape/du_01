@@ -14,30 +14,36 @@ Row {
     ColumnLayout {
         width: 200
         height: parent.height
+
         Item {
             Layout.alignment: Qt.Align
             
-            Row {
-                spacing: 5
-                CheckBox {
-                    text: "Města"
-                    checkable: true
+            Column {
+                Row {
+                    spacing: 5
+                    CheckBox {
+                        text: "Města"
+                        checkable: true
+                    }
+                    CheckBox {
+                        text: "Obce"
+                        checkable: true
+                    }
                 }
-                CheckBox {
-                    text: "Obce"
-                    checkable: true
+
+                Slider {
+                    from: 1
+                    to: 100
                 }
             }
         }
 
-        RowLayout {
+        Button {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignBottom
 
-            Button {
-                id: filtrButton
-                text: "Filtrovat"
-            }
+            id: filtrButton
+            text: "Filtrovat"
         }
     }
 
