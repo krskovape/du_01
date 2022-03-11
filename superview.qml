@@ -4,6 +4,7 @@ import QtQml.Models 2.1
 import QtLocation 5.14
 import QtPositioning 5.14
 import QtQuick.Layouts 1.15
+import QtPositioning 5.2
 
 
 RowLayout {
@@ -122,6 +123,12 @@ RowLayout {
             plugin: mapPlugin
             activeMapType: supportedMapTypes[supportedMapTypes.length - 1]
 
+            /*
+            //visibleRegion: geoshape
+            visibleRegion: Item {
+                property variant region: QtPositioning.shape(model.location)
+            }*/
+
             center: currentModelItem.location // Center to the selected city
             zoomLevel: 12
 
@@ -150,8 +157,37 @@ RowLayout {
             Item {
                 width: parent.width
                 height: childrenRect.height
-                Text {
-                    text: model.display
+                Column {
+                    //spacing: 5
+                    bottomPadding: 7
+                    Text {
+                        text: model.display
+                        color: {
+                            color = "black"
+                            if (model.typ == "město")
+                                color = "red"
+                        }
+                        font.bold: true
+                    }
+                    Row {
+                        spacing: 4
+                        Text {
+                            text: "Rozloha:"
+                        }
+                        Text {
+                            textFormat: Text.RichText
+                            text: model.area+" km<sup>2</sup>"
+                        }
+                    }
+                    Row {
+                        spacing: 4
+                        Text {
+                            text: "Počet obyvatel:"
+                        }
+                        Text {
+                            text: model.population
+                        }
+                    }
                 }
                 MouseArea {
                     anchors.fill: parent

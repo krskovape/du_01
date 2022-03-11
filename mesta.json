@@ -15,7 +15,7 @@
             "location": "Point(16.65857065 49.300526299)",
             "population": "4517",
             "area": "3.781066",
-            "typ": "město",
+            "typ": "obec",
             "kraj": "Královéhradecký",
             "okres": "Náchod"
         },
@@ -35,7 +35,7 @@
             "location": "Point(12.1951 50.224)",
             "population": "13210",
             "area": "55.856113",
-            "typ": "město",
+            "typ": "obec",
             "kraj": "Královéhradecký",
             "okres": "Náchod"
         },
@@ -45,7 +45,7 @@
             "location": "Point(14.9416 50.4824)",
             "population": "5156",
             "area": "27.008269",
-            "typ": "město",
+            "typ": "obec",
             "kraj": "Královéhradecký",
             "okres": "Náchod"
         },
@@ -75,7 +75,7 @@
             "location": "Point(14.687020558 49.781695568)",
             "population": "16656",
             "area": "46.870234",
-            "typ": "město",
+            "typ": "obec",
             "kraj": "Královéhradecký",
             "okres": "Náchod"
         },
