@@ -21,67 +21,62 @@ RowLayout {
         //Layout.fillHeight: true
         Layout.alignment: Qt.AlignTop
         
-        Item {
+        Column {
             width: parent.width
-            //height: parent.height
             height: 400
-            //Layout.fillHeight: true
-            Layout.alignment: Qt.AlignTop
-            
-            Column {
+            spacing: 15
+            topPadding: 3
+
+            Row {
+                spacing: 5
+                CheckBox {
+                    text: "Města"
+                    checkable: true
+                }
+                CheckBox {
+                    text: "Obce"
+                    checkable: true
+                }
+            }
+
+            Label {
+                text: "Počet obyvatel"
+            }
+
+            RangeSlider {
+                from: 1
+                to: 100
+                first.value: 10
+                second.value: 90
+            }
+
+            Row {
+                spacing: 100
+                //tohle budou TextInputy provázané na value z RangeSlider
+                Label {
+                    text: "Od: 1"
+                }
+                Label {
+                    text: "Do: 100"
+                }
+            }
+
+            Label {
+                text: "Kraj"
+            }
+
+            ComboBox {
                 width: parent.width
-                spacing: 15
-                Row {
-                    spacing: 5
-                    CheckBox {
-                        text: "Města"
-                        checkable: true
-                    }
-                    CheckBox {
-                        text: "Obce"
-                        checkable: true
-                    }
-                }
+                model: ["všechny", "Praha", "Středočeský", "Královéhradecký"]
+            }
 
-                Label {
-                    text: "Počet obyvatel"
-                }
+            Label {
+                text: "Okresy"
+            }
 
-                RangeSlider {
-                    from: 1
-                    to: 100
-                    first.value: 10
-                    second.value: 90
-                }
-
-                Row {
-                    spacing: 100
-                    //tohle budou TextInputy provázané na value z RangeSlider
-                    Label {
-                        text: "Od: 1"
-                    }
-                    Label {
-                        text: "Do: 100"
-                    }
-                }
-
-                Label {
-                    text: "Kraj"
-                }
-
-                ComboBox {
-                    width: parent.width
-                    model: ["Praha", "Středočeský", "Královéhradecký"]
-                }
-
-                Label {
-                    text: "Okresy"
-                }
-
-                ComboBox {
-                    width: parent.width
-                    model: ["Rychnov n. Kn.", "Trutnov", "Jičín", "Náchod"]
-                }
+            ComboBox {
+                width: parent.width
+                model: ["všechny", "Rychnov n. Kn.", "Trutnov", "Jičín", "Náchod"]
             }
         }
         
@@ -103,9 +98,6 @@ RowLayout {
     Rectangle {
         Layout.fillWidth: true
         Layout.fillHeight: true
-        border.width: 1
-        border.color: "black"
-        radius: 5
 
         Plugin {
                 id: mapPlugin
@@ -158,7 +150,6 @@ RowLayout {
                 width: parent.width
                 height: childrenRect.height
                 Column {
-                    //spacing: 5
                     bottomPadding: 7
                     Text {
                         text: model.display
