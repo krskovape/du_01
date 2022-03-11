@@ -11,6 +11,9 @@ RowLayout {
     implicitHeight: 500
     anchors.fill: parent
 
+    // Create property holding model of currently selected city
+    property var currentModelItem;
+
     ColumnLayout {
         width: 200
         height: parent.height
@@ -118,16 +121,56 @@ RowLayout {
 
             plugin: mapPlugin
             activeMapType: supportedMapTypes[supportedMapTypes.length - 1]
+
+            center: currentModelItem.location // Center to the selected city
+            zoomLevel: 12
+
+            MapItemView {
+                model: filtrModel
+                delegate: MapQuickItem {
+                    coordinate: model.location
+                    sourceItem: Text {
+                        text: model.display
+                    }
+                }
+            }
         }
     }
     
-    Item {
-        width: 200
+    ListView {
+        id: cityList
+        width: 250
         height: parent.height
+        focus: true
         Layout.alignment: Qt.AlignTop
+        Layout.fillHeight: true
 
-        Label {
-            text: "Seznam měst:"
+        Component {
+            id: cityListDelegate
+            Item {
+                width: parent.width
+                height: childrenRect.height
+                Text {
+                    text: model.display
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: cityList.currentIndex = index
+                }
+            }
+        }
+
+        model: DelegateModel {
+            id: cityListDelegateModel
+            model: filtrModel
+            delegate: cityListDelegate
+        }
+
+        // na currentModelItem připojí aktuální cityListDelegateModel
+        onCurrentItemChanged: currentModelItem = cityListDelegateModel.items.get(cityList.currentIndex).model
+
+        highlight: Rectangle {
+            color: "lightsteelblue"
         }
     }
 }
