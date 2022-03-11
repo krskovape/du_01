@@ -44,20 +44,58 @@ RowLayout {
             }
 
             RangeSlider {
-                from: 1
+                id: sliderObyv
+                from: 0
                 to: 100
-                first.value: 10
-                second.value: 90
+                first.value: filtrModel.min_po
+                second.value: filtrModel.max_po
+                Binding {
+                    target: filtrModel
+                    property: "min_po"
+                    value: sliderObyv.first.value
+                }
+                Binding {
+                    target: filtrModel
+                    property: "max_po"
+                    value: sliderObyv.second.value
+                }
+
             }
 
             Row {
-                spacing: 100
-                //tohle budou TextInputy provázané na value z RangeSlider
-                Label {
-                    text: "Od: 1"
+                spacing: 70
+
+                Row {
+                    spacing: 5
+
+                    Label {
+                        text: "Od: "
+                    }
+                    TextInput {
+                        id: minPoIntup
+                        text: filtrModel.min_po
+                        Binding {
+                            target: filtrModel
+                            property: "min_po"
+                            value: minPoIntup.text
+                        }
+                    }
                 }
-                Label {
-                    text: "Do: 100"
+                Row {
+                    spacing: 5
+
+                    Label {
+                        text: "Do: "
+                    }
+                    TextInput {
+                        id: maxPoIntup
+                        text: filtrModel.max_po
+                        Binding {
+                            target: filtrModel
+                            property: "max_po"
+                            value: maxPoIntup.text
+                        }
+                    }
                 }
             }
 

@@ -24,9 +24,35 @@ class FiltrModel(QAbstractListModel):
 
     def __init__ (self,filename=None):
         QAbstractListModel.__init__(self)
+        self._min_po = 0
+        self._max_po = 100
         self.city_list = []
         if filename:
             self.load_from_json(filename)
+    
+    #property min_po
+    def get_min_po(self):
+        return self._min_po
+    
+    def set_min_po(self,val):
+        if val != self.min_po:
+            self._min_po = val
+            self.min_po_changed.emit()
+    
+    min_po_changed = Signal()
+    min_po = Property(int, get_min_po, set_min_po, notify=min_po_changed)
+
+    #property max_po
+    def get_max_po(self):
+        return self._max_po
+    
+    def set_max_po(self,val):
+        if val != self.max_po:
+            self._max_po = val
+            self.max_po_changed.emit()
+    
+    max_po_changed = Signal()
+    max_po = Property(int, get_max_po, set_max_po, notify=max_po_changed)
     
     def load_from_json(self,filename):
         with open(filename,encoding="utf-8") as f:
