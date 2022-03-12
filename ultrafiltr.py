@@ -12,6 +12,16 @@ import json
 VIEW_URL = "superview.qml"
 CITY_LIST_FILE = "mesta.json"
 
+praha = ["Praha"]
+jihočeský = ["České Budějovice", "Český Krumlov", "Jindřichův Hradec", "Písek", "Prachatice", "Strakonice", "Tábor"]
+královéhradecký = ["Hradec Králové", "Jičín", "Náchod", "Rychnov nad Kněžnou", "Trutnov"]
+liberecký = ["Česká Lípa", "Jablonec nad Nisou", "Liberec", "Semily"]
+pardubický = ["Chrudim", "Pardubice", "Svitavy", "Ústí nad Orlicí"]
+středočeský = ["Benešov", "Beroun", "Kladno", "Kolín", "Kutná Hora", "Mělník", "Mladá Boleslav", "Nymburk", "Praha-východ", "Praha-západ", "Příbram", "Rakovník"]
+
+všechny_okresy = ["Benešov", "Beroun", "Blansko", "Brno-město", "Brno-venkov", "Bruntál", "Břeclav", "Česká Lípa"]
+všechny_kraje = ["Jihočeský", "Jihomoravský", "Karlovarský", "Vysočina", "Královéhradecký", "Liberecký", "Moravskoslezský", "Olomoucký", "Pardubický", "Plzeňský", "Praha", "Středočeský", "Ústecký", "Zlínský"]
+
 class FiltrModel(QAbstractListModel):
 
     class Roles(Enum):
@@ -26,6 +36,7 @@ class FiltrModel(QAbstractListModel):
         QAbstractListModel.__init__(self)
         self._min_po = 0
         self._max_po = 100
+        self._typ_filtr = []
         self.city_list = []
         if filename:
             self.load_from_json(filename)
@@ -53,6 +64,18 @@ class FiltrModel(QAbstractListModel):
     
     max_po_changed = Signal()
     max_po = Property(int, get_max_po, set_max_po, notify=max_po_changed)
+
+    #property typ_filtr
+    def get_typ_filtr(self):
+        return self._typ_filtr
+    
+    def set_typ_filtr(self,val):
+        if val != self.typ_filtr:
+            self._typ_filtr = val
+            self.typ_filtr_changed.emit()
+    
+    typ_filtr_changed = Signal()
+    typ_filtr = Property(list, get_typ_filtr, set_typ_filtr, notify=typ_filtr_changed)
     
     def load_from_json(self,filename):
         with open(filename,encoding="utf-8") as f:
@@ -96,6 +119,19 @@ class FiltrModel(QAbstractListModel):
         roles[self.Roles.OKRES.value] = QByteArray(b'okres')
         print(roles)
         return roles
+    
+    '''
+    @Slot(list,str)
+    def add_to_list(self, input_list: list, val: str):
+        input_list.append(val)
+        print(input_list)
+    '''
+
+    @Slot(str)
+    def add_to_typ(self, val: str):
+        self.typ_filtr.append(val)
+        print(self.typ_filtr)
+
 
 
 app = QGuiApplication(sys.argv)
