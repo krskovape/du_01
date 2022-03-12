@@ -30,12 +30,25 @@ RowLayout {
             Row {
                 spacing: 5
                 CheckBox {
+                    id: městaCheck
                     text: "Města"
                     checkable: true
+                    onCheckedChanged: {
+                        //if (městaCheck.checked == true)
+                        if (checkState === Qt.Checked)
+                            console.log("Města checked")
+                            filtrModel.add_to_typ("město")
+                    }
                 }
                 CheckBox {
+                    id: obceCheck
                     text: "Obce"
                     checkable: true
+                    onCheckedChanged: {
+                        if (obceCheck.checked == true)
+                            console.log("Obce checked")
+                            filtrModel.add_to_typ("obec")
+                    }
                 }
             }
 
@@ -105,7 +118,7 @@ RowLayout {
 
             ComboBox {
                 width: parent.width
-                model: ["všechny", "Praha", "Středočeský", "Královéhradecký"]
+                model: ["Jihočeský", "Jihomoravský", "Karlovarský", "Vysočina", "Královéhradecký", "Liberecký", "Moravskoslezský", "Olomoucký", "Pardubický", "Plzeňský", "Praha", "Středočeský", "Ústecký", "Zlínský"]
             }
 
             Label {
