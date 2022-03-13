@@ -117,17 +117,53 @@ RowLayout {
             }
 
             ComboBox {
+                id: krajBox
                 width: parent.width
-                model: ["Jihočeský", "Jihomoravský", "Karlovarský", "Vysočina", "Královéhradecký", "Liberecký", "Moravskoslezský", "Olomoucký", "Pardubický", "Plzeňský", "Praha", "Středočeský", "Ústecký", "Zlínský"]
+                model: ["","Jihočeský", "Jihomoravský", "Karlovarský", "Královéhradecký", "Liberecký", "Moravskoslezský", "Olomoucký", "Pardubický", "Plzeňský", "Praha", "Středočeský", "Ústecký", "Vysočina", "Zlínský"]
+                onActivated: {
+                    console.log("kraj: "+currentText)
+                    if (currentIndex == 1)
+                        okresBox.model = ["", "České Budějovice", "Český Krumlov", "Jindřichův Hradec", "Písek", "Prachatice", "Strakonice", "Tábor"]
+                    if (currentIndex == 2)
+                        okresBox.model = ["", "Blansko", "Brno-město", "Brno-venkov", "Břeclav", "Hodonín", "Vyškov", "Znojmo"]
+                    if (currentIndex == 3)
+                        okresBox.model = ["", "Cheb", "Karlovy Vary", "Sokolov"]
+                    if (currentIndex == 4)
+                        okresBox.model = ["", "Hradec Králové", "Jičín", "Náchod", "Rychnov nad Kněžnou", "Trutnov"]
+                    if (currentIndex == 5)
+                        okresBox.model = ["", "Česká Lípa", "Jablonec nad Nisou", "Liberec", "Semily"]
+                    if (currentIndex == 6)
+                        okresBox.model = ["", "Bruntál", "Frýdek-Místek", "Karviná", "Nový Jičín", "Opava", "Ostrava-město"]
+                    if (currentIndex == 7)
+                        okresBox.model = ["", "Jeseník", "Olomouc", "Prostějov", "Přerov", "Šumperk"]
+                    if (currentIndex == 8)
+                        okresBox.model = ["", "Chrudim", "Pardubice", "Svitavy", "Ústí nad Orlicí"]
+                    if (currentIndex == 9)
+                        okresBox.model = ["", "Domažlice", "Klatovy", "Plzeň-jih", "Plzeň-město", "Plzeň-sever", "Rokycany", "Tachov"]
+                    if (currentIndex == 10)
+                        okresBox.model = [""]
+                    if (currentIndex == 11)
+                        okresBox.model = ["", "Benešov", "Beroun", "Kladno", "Kolín", "Kutná Hora", "Mělník", "Mladá Boleslav", "Nymburk", "Praha-východ", "Praha-západ", "Příbram", "Rakovník"]
+                    if (currentIndex == 12)
+                        okresBox.model = ["", "Děčín", "Chomutov", "Litoměřice", "Louny", "Most", "Teplice", "Ústí nad Labem"]
+                    if (currentIndex == 13)
+                        okresBox.model = ["", "Havlíčkův Brod", "Jihlava", "Pelhřimov", "Třebíč", "Žďár nad Sázavou"]
+                    if (currentIndex == 14)
+                        okresBox.model = ["", "Kroměříž", "Uherské Hradiště", "Vsetín", "Zlín"]  
+                    
+                    
+                }
             }
 
             Label {
-                text: "Okresy"
+                text: "Okres"
             }
 
             ComboBox {
+                id: okresBox
                 width: parent.width
-                model: ["všechny", "Rychnov n. Kn.", "Trutnov", "Jičín", "Náchod"]
+                model: [""]
+                onActivated: console.log("okes: "+currentText)
             }
         }
         

@@ -12,15 +12,6 @@ import json
 VIEW_URL = "superview.qml"
 CITY_LIST_FILE = "mesta.json"
 
-praha = ["Praha"]
-jihočeský = ["České Budějovice", "Český Krumlov", "Jindřichův Hradec", "Písek", "Prachatice", "Strakonice", "Tábor"]
-královéhradecký = ["Hradec Králové", "Jičín", "Náchod", "Rychnov nad Kněžnou", "Trutnov"]
-liberecký = ["Česká Lípa", "Jablonec nad Nisou", "Liberec", "Semily"]
-pardubický = ["Chrudim", "Pardubice", "Svitavy", "Ústí nad Orlicí"]
-středočeský = ["Benešov", "Beroun", "Kladno", "Kolín", "Kutná Hora", "Mělník", "Mladá Boleslav", "Nymburk", "Praha-východ", "Praha-západ", "Příbram", "Rakovník"]
-
-všechny_okresy = ["Benešov", "Beroun", "Blansko", "Brno-město", "Brno-venkov", "Bruntál", "Břeclav", "Česká Lípa"]
-všechny_kraje = ["Jihočeský", "Jihomoravský", "Karlovarský", "Vysočina", "Královéhradecký", "Liberecký", "Moravskoslezský", "Olomoucký", "Pardubický", "Plzeňský", "Praha", "Středočeský", "Ústecký", "Zlínský"]
 
 class FiltrModel(QAbstractListModel):
 
