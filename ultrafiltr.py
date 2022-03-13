@@ -148,6 +148,16 @@ class FiltrModel(QAbstractListModel):
     def remove_from_typ(self, val: str):
         self.typ_filtr.remove(val)
         print(self.typ_filtr)
+    
+    @Slot()
+    def filtrovat(self):
+        for feature in citylist_model:
+            if self.Roles.TYP.value in self.typ_filtr\
+                and self.Roles.POPULATION.value > self.min_po\
+                and self.Roles.POPULATION.value < self.max_po\
+                and self.Roles.KRAJ.value == self.kraj_filtr\
+                and self.Roles.OKRES.value == self.okres_filtr:
+                print(feature)
 
 app = QGuiApplication(sys.argv)
 view = QQuickView()
