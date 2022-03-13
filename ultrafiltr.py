@@ -28,6 +28,8 @@ class FiltrModel(QAbstractListModel):
         self._min_po = 0
         self._max_po = 100
         self._typ_filtr = []
+        self._kraj_filtr = ""
+        self._okres_filtr = ""
         self.city_list = []
         if filename:
             self.load_from_json(filename)
@@ -67,6 +69,32 @@ class FiltrModel(QAbstractListModel):
     
     typ_filtr_changed = Signal()
     typ_filtr = Property(list, get_typ_filtr, set_typ_filtr, notify=typ_filtr_changed)
+
+    #property kraj_filtr
+    def get_kraj_filtr(self):
+        return self._kraj_filtr
+    
+    def set_kraj_filtr(self,val):
+        if val != self.kraj_filtr:
+            self._kraj_filtr = val
+            self.kraj_filtr_changed.emit()
+    
+    kraj_filtr_changed = Signal()
+    kraj_filtr = Property(str, get_kraj_filtr, set_kraj_filtr, notify=kraj_filtr_changed)
+
+    #property okres_filtr
+    def get_okres_filtr(self):
+        return self._okres_filtr
+    
+    def set_okres_filtr(self,val):
+        if val != self.okres_filtr:
+            self._okres_filtr = val
+            self.okres_filtr_changed.emit()
+    
+    okres_filtr_changed = Signal()
+    okres_filtr = Property(str, get_okres_filtr, set_okres_filtr, notify=okres_filtr_changed)
+
+
     
     def load_from_json(self,filename):
         with open(filename,encoding="utf-8") as f:

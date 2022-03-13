@@ -160,6 +160,11 @@ RowLayout {
                     if (currentIndex == 14)
                         okresBox.model = ["", "Kroměříž", "Uherské Hradiště", "Vsetín", "Zlín"]                      
                 }
+                Binding {
+                    target: filtrModel
+                    property: "kraj_filtr"
+                    value: krajBox.currentText
+                }
             }
 
             Label {
@@ -171,6 +176,11 @@ RowLayout {
                 width: parent.width
                 model: [""]
                 onActivated: console.log("okes: "+currentText)
+                Binding {
+                    target: filtrModel
+                    property: "okres_filtr"
+                    value: okresBox.currentText
+                }
             }
         }
         
