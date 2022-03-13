@@ -110,20 +110,16 @@ class FiltrModel(QAbstractListModel):
         roles[self.Roles.OKRES.value] = QByteArray(b'okres')
         print(roles)
         return roles
-    
-    '''
-    @Slot(list,str)
-    def add_to_list(self, input_list: list, val: str):
-        input_list.append(val)
-        print(input_list)
-    '''
 
     @Slot(str)
     def add_to_typ(self, val: str):
         self.typ_filtr.append(val)
         print(self.typ_filtr)
 
-
+    @Slot(str)
+    def remove_from_typ(self, val: str):
+        self.typ_filtr.remove(val)
+        print(self.typ_filtr)
 
 app = QGuiApplication(sys.argv)
 view = QQuickView()

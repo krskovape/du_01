@@ -34,10 +34,14 @@ RowLayout {
                     text: "Města"
                     checkable: true
                     onCheckedChanged: {
-                        //if (městaCheck.checked == true)
-                        if (checkState === Qt.Checked)
+                        if (checkState === Qt.Checked) {
                             console.log("Města checked")
-                            filtrModel.add_to_typ("město")
+                            filtrModel.add_to_typ("město") 
+                        }
+                        if (checkState === Qt.Unchecked) {
+                            console.log("Města unchecked")
+                            filtrModel.remove_from_typ("město")
+                        }
                     }
                 }
                 CheckBox {
@@ -45,9 +49,14 @@ RowLayout {
                     text: "Obce"
                     checkable: true
                     onCheckedChanged: {
-                        if (obceCheck.checked == true)
+                        if (checkState === Qt.Checked) {
                             console.log("Obce checked")
-                            filtrModel.add_to_typ("obec")
+                            filtrModel.add_to_typ("obec") 
+                        }
+                        if (checkState === Qt.Unchecked) {
+                            console.log("Obce unchecked")
+                            filtrModel.remove_from_typ("obec")
+                        }  
                     }
                 }
             }
@@ -149,9 +158,7 @@ RowLayout {
                     if (currentIndex == 13)
                         okresBox.model = ["", "Havlíčkův Brod", "Jihlava", "Pelhřimov", "Třebíč", "Žďár nad Sázavou"]
                     if (currentIndex == 14)
-                        okresBox.model = ["", "Kroměříž", "Uherské Hradiště", "Vsetín", "Zlín"]  
-                    
-                    
+                        okresBox.model = ["", "Kroměříž", "Uherské Hradiště", "Vsetín", "Zlín"]                      
                 }
             }
 
