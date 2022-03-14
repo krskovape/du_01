@@ -152,32 +152,28 @@ class FiltrModel(QAbstractListModel):
     
     @Slot()
     def filtrovat(self):
-        #vymažu všechny řádky
+        #Delete all rows from city_list
         self.beginRemoveRows(self.index(0).parent(), 0 , len(self.city_list)-1)
         self.city_list = []
         self.endRemoveRows()
 
         input_idx = 0
+
         for feature in self.puvodni_list:
-            '''
-            if self.Roles.TYP.value in self.typ_filtr\
-                and self.Roles.POPULATION.value > self.min_po\
-                and self.Roles.POPULATION.value < self.max_po\
-                and self.Roles.KRAJ.value == self.kraj_filtr\
-                and self.Roles.OKRES.value == self.okres_filtr:
-                print(feature)
-            '''
             pocet_obyv = int(feature["population"])
-            if pocet_obyv > self.min_po and pocet_obyv < self.max_po:
-                #začínám přidávat
+            if feature["typ"] in self.typ_filtr\
+                and pocet_obyv > self.min_po and pocet_obyv < self.max_po\
+                and feature["kraj"] == self.kraj_filtr\
+                and feature["okres"] == self.okres_filtr:
+
                 self.beginInsertRows(self.index(0).parent(),input_idx,input_idx)
                 self.city_list.append(feature)
-                #končím přidávání
                 self.endInsertRows()
                 input_idx += 1
-                print(f"přidávám feature {input_idx}")
-            
-        print(self.city_list)
+                #print(f"přidávám feature {input_idx}")
+
+        #print(self.city_list)    
+        print(f"Načteno {input_idx} obcí.")
             
 
 app = QGuiApplication(sys.argv)
