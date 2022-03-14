@@ -221,11 +221,9 @@ RowLayout {
             plugin: mapPlugin
             activeMapType: supportedMapTypes[supportedMapTypes.length - 1]
 
-            /*
+            
             //visibleRegion: geoshape
-            visibleRegion: Item {
-                property variant region: QtPositioning.shape(model.location)
-            }*/
+            //visibleRegion: QtPositioning.shape(model.location)
 
             center: currentModelItem.location // Center to the selected city
             zoomLevel: 12
