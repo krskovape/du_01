@@ -10,7 +10,7 @@ import json
 
 #VIEW_URL = "ultraview.qml"
 VIEW_URL = "superview.qml"
-CITY_LIST_FILE = "mesta.json"
+PUVODNI_LIST_FILE = "mesta.json"
 
 
 class FiltrModel(QAbstractListModel):
@@ -31,6 +31,7 @@ class FiltrModel(QAbstractListModel):
         self._kraj_filtr = ""
         self._okres_filtr = ""
         self.city_list = []
+        self.puvodni_list = []
         if filename:
             self.load_from_json(filename)
     
@@ -98,10 +99,10 @@ class FiltrModel(QAbstractListModel):
     
     def load_from_json(self,filename):
         with open(filename,encoding="utf-8") as f:
-            self.city_list = json.load(f)
+            self.puvodni_list = json.load(f)
 
             # Create QGeoCoordinate from the original JSON location
-            for c in self.city_list:
+            for c in self.puvodni_list:
                 pos = c['location']
                 lon,lat = pos.split("(")[1].split(")")[0].split(" ")
                 c['location'] = QGeoCoordinate(float(lat),float(lon))
@@ -151,20 +152,28 @@ class FiltrModel(QAbstractListModel):
     
     @Slot()
     def filtrovat(self):
-        for feature in citylist_model:
+        for feature in self.puvodni_list:
+            '''
             if self.Roles.TYP.value in self.typ_filtr\
                 and self.Roles.POPULATION.value > self.min_po\
                 and self.Roles.POPULATION.value < self.max_po\
                 and self.Roles.KRAJ.value == self.kraj_filtr\
                 and self.Roles.OKRES.value == self.okres_filtr:
                 print(feature)
+            '''
+            pocet_obyv = int(feature["population"])
+            if pocet_obyv > self.min_po and pocet_obyv < self.max_po:
+                self.city_list.append(feature)
+                print("přidávám feature")
+        print(self.city_list)
+            
 
 app = QGuiApplication(sys.argv)
 view = QQuickView()
 url = QUrl(VIEW_URL)
-citylist_model = FiltrModel(CITY_LIST_FILE)
+puvodnilist_model = FiltrModel(PUVODNI_LIST_FILE)
 ctxt = view.rootContext()
-ctxt.setContextProperty('filtrModel',citylist_model)
+ctxt.setContextProperty('filtrModel',puvodnilist_model)
 view.setSource(url)
 view.show()
 app.exec_()
