@@ -68,7 +68,7 @@ RowLayout {
             RangeSlider {
                 id: sliderObyv
                 from: 0
-                to: 100
+                to: 1500000
                 first.value: filtrModel.min_po
                 second.value: filtrModel.max_po
                 Binding {
@@ -195,6 +195,8 @@ RowLayout {
 
                 id: filtrButton
                 text: "Filtrovat"
+
+                onClicked: filtrModel.filtrovat()
             }
         }
     }
