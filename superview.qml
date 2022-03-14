@@ -284,6 +284,15 @@ RowLayout {
                             text: model.population
                         }
                     }
+                    Row {
+                        spacing: 4
+                        Text {
+                            text: "Okes:"
+                        }
+                        Text {
+                            text: model.okres
+                        }
+                    }
                 }
                 MouseArea {
                     anchors.fill: parent
