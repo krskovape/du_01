@@ -208,10 +208,10 @@ RowLayout {
         Plugin {
                 id: mapPlugin
                 name: "osm"
-                PluginParameter {
+                /*PluginParameter {
                     name:"osm.mapping.custom.host"
                     value:"https://maps.wikimedia.org/osm/"
-                }
+                }*/
             }
 
         Map {

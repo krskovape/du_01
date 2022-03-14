@@ -152,6 +152,12 @@ class FiltrModel(QAbstractListModel):
     
     @Slot()
     def filtrovat(self):
+        #vymažu všechny řádky
+        self.beginRemoveRows(self.index(0).parent(), 0 , len(self.city_list)-1)
+        self.city_list = []
+        self.endRemoveRows()
+
+        input_idx = 0
         for feature in self.puvodni_list:
             '''
             if self.Roles.TYP.value in self.typ_filtr\
@@ -163,8 +169,14 @@ class FiltrModel(QAbstractListModel):
             '''
             pocet_obyv = int(feature["population"])
             if pocet_obyv > self.min_po and pocet_obyv < self.max_po:
+                #začínám přidávat
+                self.beginInsertRows(self.index(0).parent(),input_idx,input_idx)
                 self.city_list.append(feature)
-                print("přidávám feature")
+                #končím přidávání
+                self.endInsertRows()
+                input_idx += 1
+                print(f"přidávám feature {input_idx}")
+            
         print(self.city_list)
             
 
