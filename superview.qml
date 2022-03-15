@@ -203,7 +203,10 @@ RowLayout {
                 id: filtrButton
                 text: "Filtrovat"
 
-                onClicked: filtrModel.filtrovat()
+                onClicked: {
+                    filtrModel.filtrovat()
+                    cityList.currentIndex = -1
+                }
             }
         }
     }
@@ -254,6 +257,7 @@ RowLayout {
         focus: true
         Layout.alignment: Qt.AlignTop
         Layout.fillHeight: true
+        //currentIndex : -1
 
         Component {
             id: cityListDelegate
@@ -293,7 +297,7 @@ RowLayout {
                     Row {
                         spacing: 4
                         Text {
-                            text: "Okes:"
+                            text: "Okres:"
                         }
                         Text {
                             text: model.okres
