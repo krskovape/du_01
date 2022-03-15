@@ -1,28 +1,29 @@
 import json
 from json.decoder import JSONDecodeError
 
-def load(soubor):
-    try:
-        with open(soubor, encoding="utf-8") as soubor:
-            return json.load(soubor)
-    except FileNotFoundError:
-        print("Vstupní soubor se nepodařilo načíst. Ujistěte se, že daný soubor existuje, případně zda je k němu zadána korektní cesta.")
-        quit()
-    except PermissionError:
-        print("Program nemá přístup k zápisu výstupních souborů.")
-        quit()
-    except JSONDecodeError:
-        print("Načtený vstupní soubor není platný JSON.")
-        quit()
+#otevírání souboru 
+try:
+    #!!! data bez Prahy a se statutárními městy !!!
+    with open("data3.json", encoding="utf-8") as soubor:
+         data = json.load(soubor)
+except FileNotFoundError:
+    print("Vstupní soubor se nepodařilo načíst. Ujistěte se, že daný soubor existuje, případně zda je k němu zadána korektní cesta.")
+    quit()
+except PermissionError:
+    print("Program nemá přístup k zápisu výstupních souborů.")
+    quit()
+except JSONDecodeError:
+    print("Načtený vstupní soubor není platný JSON.")
+    quit()
 
-data = load("data_zaklad.json")
-
+#změna názvu krajů a okresů
 for feature in data:
+
     #kraje
     if feature ["krajLabel"] == "Jihočeský kraj":
         feature ["krajLabel"] = "Jihočeský"
     if feature ["krajLabel"] == "Jihomoravský kraj":
-        feature ["krajLabel"] = "Jhomoravský"
+        feature ["krajLabel"] = "Jihomoravský"
     if feature ["krajLabel"] == "Karlovarský kraj":
         feature ["krajLabel"] = "Karlovarský"
     if feature ["krajLabel"] == "Královéhradecký kraj":
@@ -202,4 +203,8 @@ for feature in data:
     if feature ["okresLabel"] == "okres Žďár nad Sázavou":
         feature ["okresLabel"] = "Žďár nad Sázavou"	
     if feature ["okresLabel"] == "okres České Budějovice":
-        feature ["okresLabel"] = "České Budějovice"	
+        feature ["okresLabel"] = "České Budějovice"
+
+#výstupní .json
+with open('data_ukol1.json', 'w', encoding ='utf8') as json_file:
+    json.dump(data, json_file, ensure_ascii = False)
