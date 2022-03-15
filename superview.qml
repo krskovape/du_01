@@ -206,6 +206,7 @@ RowLayout {
                 onClicked: {
                     filtrModel.filtrovat()
                     cityList.currentIndex = -1
+                    mapaObce.fitViewportToVisibleMapItems()
                 }
             }
         }
@@ -225,6 +226,7 @@ RowLayout {
             }
 
         Map {
+            id: mapaObce
             width: parent.width
             height: parent.height
 
