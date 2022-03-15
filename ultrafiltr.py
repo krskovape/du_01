@@ -171,22 +171,6 @@ class FiltrModel(QAbstractListModel):
                 self.endInsertRows()
                 input_idx += 1
                 #print(f"přidávám feature {input_idx}")
-            elif feature["typ"] in self.typ_filtr and pocet_obyv > self.min_po and pocet_obyv < self.max_po:
-                #self.kraj_filtr == ["všechny"]
-                
-
-                self.beginInsertRows(self.index(0).parent(),input_idx,input_idx)
-                self.city_list.append(feature)
-                self.endInsertRows()
-                input_idx += 1
-
-            elif feature["typ"] in self.typ_filtr and pocet_obyv > self.min_po and pocet_obyv < self.max_po\
-                and feature["kraj"] == self.kraj_filtr:
-
-                self.beginInsertRows(self.index(0).parent(),input_idx,input_idx)
-                self.city_list.append(feature)
-                self.endInsertRows()
-                input_idx += 1
 
         #print(self.city_list)    
         print(f"Načteno {input_idx} obcí.")
