@@ -28,8 +28,10 @@ class FiltrModel(QAbstractListModel):
         self._min_po = 0
         self._max_po = 100
         self._typ_filtr = []
-        self._kraj_filtr = ""
-        self._okres_filtr = ""
+        self._kraj_filtr = ["všechny"]
+        self._okres_filtr = ["všechny"]
+        self.kraj_all = ["Jihočeský", "Jihomoravský", "Karlovarský", "Královéhradecký", "Liberecký", "Moravskoslezský", "Olomoucký", "Pardubický", "Plzeňský", "Praha", "Středočeský", "Ústecký", "Vysočina", "Zlínský"]
+        self.okres_all = ["České Budějovice", "Český Krumlov", "Jindřichův Hradec", "Písek", "Prachatice", "Strakonice", "Tábor", "Blansko", "Brno-město", "Brno-venkov", "Břeclav", "Hodonín", "Vyškov", "Znojmo", "Cheb", "Karlovy Vary", "Sokolov", "Hradec Králové", "Jičín", "Náchod", "Rychnov nad Kněžnou", "Trutnov", "Česká Lípa", "Jablonec nad Nisou", "Liberec", "Semily", "Bruntál", "Frýdek-Místek", "Karviná", "Nový Jičín", "Opava", "Ostrava-město", "Jeseník", "Olomouc", "Prostějov", "Přerov", "Šumperk", "Chrudim", "Pardubice", "Svitavy", "Ústí nad Orlicí", "Domažlice", "Klatovy", "Plzeň-jih", "Plzeň-město", "Plzeň-sever", "Rokycany", "Tachov", "Praha", "Benešov", "Beroun", "Kladno", "Kolín", "Kutná Hora", "Mělník", "Mladá Boleslav", "Nymburk", "Praha-východ", "Praha-západ", "Příbram", "Rakovník", "Děčín", "Chomutov", "Litoměřice", "Louny", "Most", "Teplice", "Ústí nad Labem", "Havlíčkův Brod", "Jihlava", "Pelhřimov", "Třebíč", "Žďár nad Sázavou", "Kroměříž", "Uherské Hradiště", "Vsetín", "Zlín"]
         self.city_list = []
         self.puvodni_list = []
         if filename:
@@ -149,6 +151,26 @@ class FiltrModel(QAbstractListModel):
     def remove_from_typ(self, val: str):
         self.typ_filtr.remove(val)
         print(self.typ_filtr)
+
+    @Slot(str)
+    def add_to_kraj(self, val: str):
+        self.kraj_filtr.append(val)
+        print(self.kraj_filtr)
+
+    @Slot()
+    def remove_from_kraj(self):
+        self.kraj_filtr = []
+        print(self.kraj_filtr)
+
+    @Slot(str)
+    def add_to_okres(self, val: str):
+        self.okres_filtr.append(val)
+        print(self.okres_filtr)
+
+    @Slot()
+    def remove_from_okres(self):
+        self.okres_filtr = []
+        print(self.okres_filtr)
     
     @Slot()
     def filtrovat(self):
@@ -158,13 +180,18 @@ class FiltrModel(QAbstractListModel):
         self.endRemoveRows()
 
         input_idx = 0
+        if "všechny" in self.kraj_filtr:
+            self.kraj_filtr = self.kraj_all
+        
+        if "všechny" in self.okres_filtr:
+            self.okres_filtr = self.okres_all
 
         for feature in self.puvodni_list:
             pocet_obyv = int(feature["population"])
             if feature["typ"] in self.typ_filtr\
                 and pocet_obyv > self.min_po and pocet_obyv < self.max_po\
-                and feature["kraj"] == self.kraj_filtr\
-                and feature["okres"] == self.okres_filtr:
+                and feature["kraj"] in self.kraj_filtr\
+                and feature["okres"] in self.okres_filtr:
 
                 self.beginInsertRows(self.index(0).parent(),input_idx,input_idx)
                 self.city_list.append(feature)

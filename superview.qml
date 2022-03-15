@@ -132,6 +132,8 @@ RowLayout {
                 model: ["všechny","Jihočeský", "Jihomoravský", "Karlovarský", "Královéhradecký", "Liberecký", "Moravskoslezský", "Olomoucký", "Pardubický", "Plzeňský", "Praha", "Středočeský", "Ústecký", "Vysočina", "Zlínský"]
                 onActivated: {
                     console.log("kraj: "+currentText)
+                    filtrModel.remove_from_kraj()
+                    filtrModel.add_to_kraj(currentText)
                     if (currentIndex == 1)
                         okresBox.model = ["všechny", "České Budějovice", "Český Krumlov", "Jindřichův Hradec", "Písek", "Prachatice", "Strakonice", "Tábor"]
                     if (currentIndex == 2)
@@ -161,11 +163,11 @@ RowLayout {
                     if (currentIndex == 14)
                         okresBox.model = ["všechny", "Kroměříž", "Uherské Hradiště", "Vsetín", "Zlín"]                      
                 }
-                Binding {
+                /*Binding {
                     target: filtrModel
                     property: "kraj_filtr"
                     value: krajBox.currentText
-                }
+                }*/
             }
 
             Label {
@@ -176,12 +178,16 @@ RowLayout {
                 id: okresBox
                 width: parent.width
                 model: ["všechny"]
-                onActivated: console.log("okes: "+currentText)
-                Binding {
+                onActivated: {
+                    console.log("okes: "+currentText)
+                    filtrModel.remove_from_okres()
+                    filtrModel.add_to_okres(currentText)
+                }
+                /*Binding {
                     target: filtrModel
                     property: "okres_filtr"
                     value: okresBox.currentText
-                }
+                }*/
             }
         }
         
