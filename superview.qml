@@ -134,6 +134,9 @@ RowLayout {
                     console.log("kraj: "+currentText)
                     filtrModel.remove_from_kraj()
                     filtrModel.add_to_kraj(currentText)
+                    if (currentIndex == 0)
+                        okresBox.model = ["všechny"]
+                        filtrModel.add_to_okres("všechny")
                     if (currentIndex == 1)
                         okresBox.model = ["všechny", "České Budějovice", "Český Krumlov", "Jindřichův Hradec", "Písek", "Prachatice", "Strakonice", "Tábor"]
                     if (currentIndex == 2)
@@ -153,7 +156,7 @@ RowLayout {
                     if (currentIndex == 9)
                         okresBox.model = ["všechny", "Domažlice", "Klatovy", "Plzeň-jih", "Plzeň-město", "Plzeň-sever", "Rokycany", "Tachov"]
                     if (currentIndex == 10)
-                        okresBox.model = ["Praha"]
+                        okresBox.model = ["všechny"]
                     if (currentIndex == 11)
                         okresBox.model = ["všechny", "Benešov", "Beroun", "Kladno", "Kolín", "Kutná Hora", "Mělník", "Mladá Boleslav", "Nymburk", "Praha-východ", "Praha-západ", "Příbram", "Rakovník"]
                     if (currentIndex == 12)
