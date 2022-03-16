@@ -95,12 +95,12 @@ RowLayout {
                         text: "Od: "
                     }
                     TextInput {
-                        id: minPoIntup
+                        id: minPoInput
                         text: filtrModel.min_po
                         Binding {
                             target: filtrModel
                             property: "min_po"
-                            value: minPoIntup.text
+                            value: minPoInput.text
                         }
                     }
                 }
@@ -111,12 +111,12 @@ RowLayout {
                         text: "Do: "
                     }
                     TextInput {
-                        id: maxPoIntup
+                        id: maxPoInput
                         text: filtrModel.max_po
                         Binding {
                             target: filtrModel
                             property: "max_po"
-                            value: maxPoIntup.text
+                            value: maxPoInput.text
                         }
                     }
                 }
