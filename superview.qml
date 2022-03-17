@@ -306,7 +306,10 @@ RowLayout {
         }
 
         // na currentModelItem připojí aktuální cityListDelegateModel
-        onCurrentItemChanged: currentModelItem = cityListDelegateModel.items.get(cityList.currentIndex).model
+        onCurrentItemChanged: {
+            currentModelItem = cityListDelegateModel.items.get(cityList.currentIndex).model
+            mapaObce.center= currentModelItem.location
+            mapaObce.zoomLevel = 12}
 
         highlight: Rectangle {
             color: "lightsteelblue"
