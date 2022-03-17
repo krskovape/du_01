@@ -10,7 +10,7 @@ import json
 
 #VIEW_URL = "ultraview.qml"
 VIEW_URL = "superview.qml"
-PUVODNI_LIST_FILE = "mesta.json"
+PUVODNI_LIST_FILE = "data_ukol1.json"
 
 
 class FiltrModel(QAbstractListModel):
@@ -28,6 +28,8 @@ class FiltrModel(QAbstractListModel):
         self._min_po = 0
         self._max_po = 100
         self._typ_filtr = []
+        self._obce = False
+        self._mesta = False
         self.kraj_filtr = ["všechny"]
         self.okres_filtr = ["všechny"]
         self.kraj_all = ["Jihočeský", "Jihomoravský", "Karlovarský", "Královéhradecký", "Liberecký", "Moravskoslezský", "Olomoucký", "Pardubický", "Plzeňský", "Praha", "Středočeský", "Ústecký", "Vysočina", "Zlínský"]
@@ -73,6 +75,30 @@ class FiltrModel(QAbstractListModel):
     typ_filtr_changed = Signal()
     typ_filtr = Property(list, get_typ_filtr, set_typ_filtr, notify=typ_filtr_changed)
 
+    #property obce
+    def get_obce(self):
+        return self._obce
+    
+    def set_obce(self,val):
+        if val != self.obce:
+            self._obce = val
+            self.obce_changed.emit()
+    
+    obce_changed = Signal()
+    obce = Property(list, get_obce, set_obce, notify=obce_changed)
+
+    #property mesta
+    def get_mesta(self):
+        return self._mesta
+    
+    def set_mesta(self,val):
+        if val != self.mesta:
+            self._mesta = val
+            self.mesta_changed.emit()
+    
+    mesta_changed = Signal()
+    mesta = Property(list, get_mesta, set_mesta, notify=mesta_changed)
+
     
     def load_from_json(self,filename):
         with open(filename,encoding="utf-8") as f:
@@ -90,7 +116,7 @@ class FiltrModel(QAbstractListModel):
     
     def data(self, index:QtCore.QModelIndex, role:int=...) -> typing.Any:
         if role == QtCore.Qt.DisplayRole: # On DisplayRole return name
-            return self.city_list[index.row()]["muniLabel"]
+            return self.city_list[index.row()]["obecLabel"]
         elif role == self.Roles.LOCATION.value: # On location role return coordinates
             return self.city_list[index.row()]["location"]
         elif role == self.Roles.AREA.value: # On area role return area
@@ -100,9 +126,9 @@ class FiltrModel(QAbstractListModel):
         elif role == self.Roles.TYP.value: 
             return self.city_list[index.row()]["typ"]
         elif role == self.Roles.KRAJ.value: 
-            return self.city_list[index.row()]["kraj"]
+            return self.city_list[index.row()]["krajLabel"]
         elif role == self.Roles.OKRES.value: 
-            return self.city_list[index.row()]["okres"]
+            return self.city_list[index.row()]["okresLabel"]
     
     def roleNames(self) -> typing.Dict[int, QByteArray]:
         """Returns dict with role numbers and role names for default and custom roles together"""
@@ -154,6 +180,9 @@ class FiltrModel(QAbstractListModel):
         self.city_list = []
         self.endRemoveRows()
 
+        print(self.obce)
+        print(self.mesta)
+
         input_idx = 0
         if "všechny" in self.kraj_filtr:
             self.kraj_filtr = self.kraj_all
@@ -163,7 +192,7 @@ class FiltrModel(QAbstractListModel):
 
         for feature in self.puvodni_list:
             pocet_obyv = int(feature["population"])
-            if feature["typ"] in self.typ_filtr\
+            if "mestoLabel" not in feature and self.obce == True\
                 and pocet_obyv > self.min_po and pocet_obyv < self.max_po\
                 and feature["kraj"] in self.kraj_filtr\
                 and feature["okres"] in self.okres_filtr:
@@ -173,6 +202,16 @@ class FiltrModel(QAbstractListModel):
                 self.endInsertRows()
                 input_idx += 1
                 #print(f"přidávám feature {input_idx}")
+            
+            if self.mesta == True and feature["mestoLabel"] == "město v Česku"\
+                and pocet_obyv > self.min_po and pocet_obyv < self.max_po\
+                and feature["kraj"] in self.kraj_filtr\
+                and feature["okres"] in self.okres_filtr:
+
+                self.beginInsertRows(self.index(0).parent(),input_idx,input_idx)
+                self.city_list.append(feature)
+                self.endInsertRows()
+                input_idx += 1
 
         #print(self.city_list)    
         print(f"Načteno {input_idx} obcí.")

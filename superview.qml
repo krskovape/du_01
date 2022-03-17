@@ -34,30 +34,21 @@ RowLayout {
                     id: městaCheck
                     text: "Města"
                     checkable: true
-                    onCheckedChanged: {
-                        if (checkState === Qt.Checked) {
-                            console.log("Města checked")
-                            filtrModel.add_to_typ("město") 
-                        }
-                        if (checkState === Qt.Unchecked) {
-                            console.log("Města unchecked")
-                            filtrModel.remove_from_typ("město")
-                        }
+                    Binding {
+                        target: filtrModel
+                        property: "mesta"
+                        value: městaCheck.checked
                     }
+                    
                 }
                 CheckBox {
                     id: obceCheck
                     text: "Obce"
                     checkable: true
-                    onCheckedChanged: {
-                        if (checkState === Qt.Checked) {
-                            console.log("Obce checked")
-                            filtrModel.add_to_typ("obec") 
-                        }
-                        if (checkState === Qt.Unchecked) {
-                            console.log("Obce unchecked")
-                            filtrModel.remove_from_typ("obec")
-                        }  
+                    Binding {
+                        target: filtrModel
+                        property: "obce"
+                        value: obceCheck.checked
                     }
                 }
             }
@@ -209,7 +200,7 @@ RowLayout {
                 onClicked: {
                     filtrModel.filtrovat()
                     cityList.currentIndex = -1
-                    mapaObce.fitViewportToVisibleMapItems()
+                    //mapaObce.fitViewportToVisibleMapItems()
                 }
             }
         }
