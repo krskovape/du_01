@@ -4,7 +4,7 @@ from json.decoder import JSONDecodeError
 #otevírání souboru 
 try:
     #!!! data bez Prahy a se statutárními městy !!!
-    with open("data3.json", encoding="utf-8") as soubor:
+    with open("data_ukol1.json", encoding="utf-8") as soubor:
          data = json.load(soubor)
 except FileNotFoundError:
     print("Vstupní soubor se nepodařilo načíst. Ujistěte se, že daný soubor existuje, případně zda je k němu zadána korektní cesta.")
@@ -42,11 +42,11 @@ for feature in data:
         feature ["krajLabel"] = "Středočeský"
     if feature ["krajLabel"] == "Ústecký kraj":
         feature ["krajLabel"] = "Ústecký"
-    if feature ["krajLabel"] == "kraj Vysočina":
+    if feature ["krajLabel"] == "Kraj Vysočina":
         feature ["krajLabel"] = "Vysočina"
     if feature ["krajLabel"] == "Zlínský kraj":
         feature ["krajLabel"] = "Zlínský"
-    if feature ["krajLabel"] == "kraj Praha":
+    if feature ["krajLabel"] == "Kraj Praha":
         feature ["krajLabel"] = "Praha"
 
     #okresy
@@ -206,5 +206,5 @@ for feature in data:
         feature ["okresLabel"] = "České Budějovice"
 
 #výstupní .json
-with open('data_ukol1.json', 'w', encoding ='utf8') as json_file:
+with open('data_upravena.json', 'w', encoding ='utf8') as json_file:
     json.dump(data, json_file, ensure_ascii = False)
