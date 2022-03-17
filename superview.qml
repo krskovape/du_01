@@ -224,7 +224,7 @@ RowLayout {
                 name: "osm"
                 PluginParameter {
                     name:"osm.mapping.custom.host"
-                    value:"https://tile.openstreetmap.org/"
+                    value:"https://www.openstreetmap.org/#map"  //https://tile.openstreetmap.org/
                 }
             }
 
@@ -234,14 +234,14 @@ RowLayout {
             height: parent.height
 
             plugin: mapPlugin
-            activeMapType: supportedMapTypes[supportedMapTypes.length - 1]
+            activeMapType: supportedMapTypes[supportedMapTypes.length - 3]
 
             
             //visibleRegion: geoshape
             //visibleRegion: QtPositioning.shape(model.location)
-
-            center: currentModelItem.location // Center to the selected city
-            zoomLevel: 12
+            center: QtPositioning.coordinate(49.7437572, 15.3386383) // Oslo
+            //center: currentModelItem.location // Center to the selected city
+            zoomLevel: 7.5
 
             MapItemView {
                 model: filtrModel
