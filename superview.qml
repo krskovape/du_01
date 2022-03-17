@@ -34,10 +34,11 @@ RowLayout {
                     id: městaCheck
                     text: "Města"
                     checkable: true
+                    checked: true
                     Binding {
                         target: filtrModel
                         property: "mesta"
-                        value: městaCheck.checked
+                        value: městaCheck.checkState
                     }
                     
                 }
@@ -45,10 +46,11 @@ RowLayout {
                     id: obceCheck
                     text: "Obce"
                     checkable: true
+                    checked: true
                     Binding {
                         target: filtrModel
                         property: "obce"
-                        value: obceCheck.checked
+                        value: obceCheck.checkState
                     }
                 }
             }
@@ -266,7 +268,7 @@ RowLayout {
                         text: model.display
                         color: {
                             color = "black"
-                            if (model.typ == "město")
+                            if (model.typ == "město v Česku")
                                 color = "red"
                         }
                         font.bold: true

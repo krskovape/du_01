@@ -28,8 +28,8 @@ class FiltrModel(QAbstractListModel):
         self._min_po = 0
         self._max_po = 100
         self._typ_filtr = []
-        self._obce = False
-        self._mesta = False
+        self._obce = True
+        self._mesta = True
         self.kraj_filtr = ["všechny"]
         self.okres_filtr = ["všechny"]
         self.kraj_all = ["Jihočeský", "Jihomoravský", "Karlovarský", "Královéhradecký", "Liberecký", "Moravskoslezský", "Olomoucký", "Pardubický", "Plzeňský", "Praha", "Středočeský", "Ústecký", "Vysočina", "Zlínský"]
@@ -124,7 +124,7 @@ class FiltrModel(QAbstractListModel):
         elif role == self.Roles.POPULATION.value: # On population role return population
             return self.city_list[index.row()]["population"]
         elif role == self.Roles.TYP.value: 
-            return self.city_list[index.row()]["typ"]
+            return self.city_list[index.row()]["mestoLabel"]
         elif role == self.Roles.KRAJ.value: 
             return self.city_list[index.row()]["krajLabel"]
         elif role == self.Roles.OKRES.value: 
@@ -194,8 +194,8 @@ class FiltrModel(QAbstractListModel):
             pocet_obyv = int(feature["population"])
             if "mestoLabel" not in feature and self.obce == True\
                 and pocet_obyv > self.min_po and pocet_obyv < self.max_po\
-                and feature["kraj"] in self.kraj_filtr\
-                and feature["okres"] in self.okres_filtr:
+                and feature["krajLabel"] in self.kraj_filtr\
+                and feature["okresLabel"] in self.okres_filtr:
 
                 self.beginInsertRows(self.index(0).parent(),input_idx,input_idx)
                 self.city_list.append(feature)
@@ -203,15 +203,16 @@ class FiltrModel(QAbstractListModel):
                 input_idx += 1
                 #print(f"přidávám feature {input_idx}")
             
-            if self.mesta == True and feature["mestoLabel"] == "město v Česku"\
-                and pocet_obyv > self.min_po and pocet_obyv < self.max_po\
-                and feature["kraj"] in self.kraj_filtr\
-                and feature["okres"] in self.okres_filtr:
+            if self.mesta == True and "mestoLabel" in feature:
+                if feature["mestoLabel"] == "město v Česku"\
+                    and pocet_obyv > self.min_po and pocet_obyv < self.max_po\
+                    and feature["krajLabel"] in self.kraj_filtr\
+                    and feature["okresLabel"] in self.okres_filtr:
 
-                self.beginInsertRows(self.index(0).parent(),input_idx,input_idx)
-                self.city_list.append(feature)
-                self.endInsertRows()
-                input_idx += 1
+                    self.beginInsertRows(self.index(0).parent(),input_idx,input_idx)
+                    self.city_list.append(feature)
+                    self.endInsertRows()
+                    input_idx += 1
 
         #print(self.city_list)    
         print(f"Načteno {input_idx} obcí.")
