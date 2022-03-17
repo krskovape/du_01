@@ -28,8 +28,8 @@ class FiltrModel(QAbstractListModel):
         self._min_po = 0
         self._max_po = 100
         self._typ_filtr = []
-        self._kraj_filtr = ["všechny"]
-        self._okres_filtr = ["všechny"]
+        self.kraj_filtr = ["všechny"]
+        self.okres_filtr = ["všechny"]
         self.kraj_all = ["Jihočeský", "Jihomoravský", "Karlovarský", "Královéhradecký", "Liberecký", "Moravskoslezský", "Olomoucký", "Pardubický", "Plzeňský", "Praha", "Středočeský", "Ústecký", "Vysočina", "Zlínský"]
         self.okres_all = ["České Budějovice", "Český Krumlov", "Jindřichův Hradec", "Písek", "Prachatice", "Strakonice", "Tábor", "Blansko", "Brno-město", "Brno-venkov", "Břeclav", "Hodonín", "Vyškov", "Znojmo", "Cheb", "Karlovy Vary", "Sokolov", "Hradec Králové", "Jičín", "Náchod", "Rychnov nad Kněžnou", "Trutnov", "Česká Lípa", "Jablonec nad Nisou", "Liberec", "Semily", "Bruntál", "Frýdek-Místek", "Karviná", "Nový Jičín", "Opava", "Ostrava-město", "Jeseník", "Olomouc", "Prostějov", "Přerov", "Šumperk", "Chrudim", "Pardubice", "Svitavy", "Ústí nad Orlicí", "Domažlice", "Klatovy", "Plzeň-jih", "Plzeň-město", "Plzeň-sever", "Rokycany", "Tachov", "Praha", "Benešov", "Beroun", "Kladno", "Kolín", "Kutná Hora", "Mělník", "Mladá Boleslav", "Nymburk", "Praha-východ", "Praha-západ", "Příbram", "Rakovník", "Děčín", "Chomutov", "Litoměřice", "Louny", "Most", "Teplice", "Ústí nad Labem", "Havlíčkův Brod", "Jihlava", "Pelhřimov", "Třebíč", "Žďár nad Sázavou", "Kroměříž", "Uherské Hradiště", "Vsetín", "Zlín"]
         self.city_list = []
@@ -72,31 +72,6 @@ class FiltrModel(QAbstractListModel):
     
     typ_filtr_changed = Signal()
     typ_filtr = Property(list, get_typ_filtr, set_typ_filtr, notify=typ_filtr_changed)
-
-    #property kraj_filtr
-    def get_kraj_filtr(self):
-        return self._kraj_filtr
-    
-    def set_kraj_filtr(self,val):
-        if val != self.kraj_filtr:
-            self._kraj_filtr = val
-            self.kraj_filtr_changed.emit()
-    
-    kraj_filtr_changed = Signal()
-    kraj_filtr = Property(str, get_kraj_filtr, set_kraj_filtr, notify=kraj_filtr_changed)
-
-    #property okres_filtr
-    def get_okres_filtr(self):
-        return self._okres_filtr
-    
-    def set_okres_filtr(self,val):
-        if val != self.okres_filtr:
-            self._okres_filtr = val
-            self.okres_filtr_changed.emit()
-    
-    okres_filtr_changed = Signal()
-    okres_filtr = Property(str, get_okres_filtr, set_okres_filtr, notify=okres_filtr_changed)
-
 
     
     def load_from_json(self,filename):
