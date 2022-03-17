@@ -34,26 +34,16 @@ RowLayout {
                     id: městaCheck
                     text: "Města"
                     checkable: true
-                    checked: true
-                    Binding {
-                        target: filtrModel
-                        property: "mesta"
-                        value: městaCheck.checkState
-                    }
-                    
+                    onCheckStateChanged: filtrModel.mesta = městaCheck.checked
                 }
                 CheckBox {
                     id: obceCheck
                     text: "Obce"
                     checkable: true
-                    checked: true
-                    Binding {
-                        target: filtrModel
-                        property: "obce"
-                        value: obceCheck.checkState
-                    }
+                    onCheckStateChanged: filtrModel.obce = obceCheck.checked
                 }
             }
+
 
             Label {
                 text: "Počet obyvatel"

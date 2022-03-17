@@ -28,8 +28,8 @@ class FiltrModel(QAbstractListModel):
         self._min_po = 0
         self._max_po = 100
         self._typ_filtr = []
-        self._obce = True
-        self._mesta = True
+        self._obce = False
+        self._mesta = False
         self.kraj_filtr = ["všechny"]
         self.okres_filtr = ["všechny"]
         self.kraj_all = ["Jihočeský", "Jihomoravský", "Karlovarský", "Královéhradecký", "Liberecký", "Moravskoslezský", "Olomoucký", "Pardubický", "Plzeňský", "Praha", "Středočeský", "Ústecký", "Vysočina", "Zlínský"]
@@ -85,7 +85,7 @@ class FiltrModel(QAbstractListModel):
             self.obce_changed.emit()
     
     obce_changed = Signal()
-    obce = Property(list, get_obce, set_obce, notify=obce_changed)
+    obce = Property(bool, get_obce, set_obce, notify=obce_changed)
 
     #property mesta
     def get_mesta(self):
@@ -97,7 +97,7 @@ class FiltrModel(QAbstractListModel):
             self.mesta_changed.emit()
     
     mesta_changed = Signal()
-    mesta = Property(list, get_mesta, set_mesta, notify=mesta_changed)
+    mesta = Property(bool, get_mesta, set_mesta, notify=mesta_changed)
 
     
     def load_from_json(self,filename):
@@ -180,8 +180,8 @@ class FiltrModel(QAbstractListModel):
         self.city_list = []
         self.endRemoveRows()
 
-        print(self.obce)
-        print(self.mesta)
+        # print(self.obce)
+        # print(self.mesta)
 
         input_idx = 0
         if "všechny" in self.kraj_filtr:
