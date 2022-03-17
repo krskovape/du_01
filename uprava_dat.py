@@ -141,9 +141,9 @@ for feature in data:
     if feature ["okresLabel"] == "okres Písek":
         feature ["okresLabel"] = "Písek"	
     if feature ["okresLabel"] == "okres Plzeň-jih":
-        feature ["okresLabel"] = "PlzeŇ-jih"	
+        feature ["okresLabel"] = "Plzeň-jih"	
     if feature ["okresLabel"] == "okres Plzeň-město":
-        feature ["okresLabel"] = "PlzeŇ-město"	
+        feature ["okresLabel"] = "Plzeň-město"	
     if feature ["okresLabel"] == "okres Plzeň-sever":
         feature ["okresLabel"] = "Plzeň-sever"	
     if feature ["okresLabel"] == "okres Praha":
