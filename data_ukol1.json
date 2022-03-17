@@ -1,5 +1,4 @@
-{
-  "Sheet1": [
+[
     {
       "obec": "http://www.wikidata.org/entity/Q2082205",
       "obecLabel": "Radimovice u Tábora",
@@ -71699,5 +71698,4 @@
       "location": "Point(14.416666666 50.083333333)",
       "mestoLabel": "město v Česku"
     }
-  ]
-}
+]
