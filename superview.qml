@@ -312,6 +312,14 @@ RowLayout {
                             text: model.okres
                         }
                     }
+                    //funguje jen na tenhle obrázek, proč?
+                    //source bere jen nezabezpečené images????
+                    Image {
+                        height:150
+                        width: 150
+                        //source: "http://i.kym-cdn.com/entries/icons/original/000/002/144/You_Shall_Not_Pass!_0-1_screenshot.jpg" //funguje
+                        source: "http://upload.wikimedia.org/wikipedia/commons/b/be/Vl%C4%8Deves_CoA.jpg"
+                    }
                 }
                 MouseArea {
                     anchors.fill: parent
