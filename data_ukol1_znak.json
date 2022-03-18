@@ -12,6 +12,8 @@
     {
        "obec": "http://www.wikidata.org/entity/Q1085",
        "obecLabel": "Praha",
+       "okresLabel": "Praha",
+       "krajLabel": "Praha",
        "mesto": "http://www.wikidata.org/entity/Q15978299",
        "mestoLabel": "město v Česku",
        "population": "1335084",
