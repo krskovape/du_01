@@ -226,12 +226,33 @@ RowLayout {
             //center: currentModelItem.location // Center to the selected city
             zoomLevel: 7.5
 
+            
+
             MapItemView {
                 model: filtrModel
                 delegate: MapQuickItem {
                     coordinate: model.location
-                    sourceItem: Text {
-                        text: model.display
+                    sourceItem: Column {
+                        spacing: 2
+                        Text {
+                            text: model.display
+                            color: {
+                                color = "black"
+                                if (model.typ == "město v Česku")
+                                    color = "red"
+                            }
+                            font.bold: {
+                                font.bold = false
+                                if (model.typ == "město v Česku")
+                                    font.bold = true
+                            }                        
+                        }
+                        Rectangle {
+                            height: 7
+                            width: 7
+                            radius: 360
+                            color: 'black'
+                        }
                     }
                 }
             }
