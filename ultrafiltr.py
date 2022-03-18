@@ -102,6 +102,9 @@ class FiltrModel(QAbstractListModel):
                 self.kraj_all.add(c['krajLabel'])
                 self.okres_all.add(c['okresLabel'])
 
+                if "mestoLabel" not in c:
+                    c["mestoLabel"] = "obec"
+
     def rowCount(self, parent:QtCore.QModelIndex=...) -> int:
         """ Return number of cities in the list"""
         return len(self.city_list)
@@ -115,21 +118,8 @@ class FiltrModel(QAbstractListModel):
             return self.city_list[index.row()]["area"]
         elif role == self.Roles.POPULATION.value: # On population role return population
             return self.city_list[index.row()]["population"]
-        
-        # elif role == self.Roles.TYP.value:
-        #     if "mestoLabel" in self.city_list:
-        #         return self.city_list[index.row()]["mestoLabel"]
-        #     else: return "nic"
-
-        # elif role == self.Roles.TYP.value:
-        #     if self.city_list[index.row()]["mestoLabel"]: 
-        #         return self.city_list[index.row()]["mestoLabel"]
-        #     else: return "nic"
-
         elif role == self.Roles.TYP.value:
             return self.city_list[index.row()]["mestoLabel"]
-
-
         elif role == self.Roles.KRAJ.value: 
             return self.city_list[index.row()]["krajLabel"]
         elif role == self.Roles.OKRES.value: 
@@ -179,18 +169,19 @@ class FiltrModel(QAbstractListModel):
 
         for feature in self.puvodni_list:
             pocet_obyv = int(feature["population"])
-            if "mestoLabel" not in feature and self.obce == True\
-                and pocet_obyv > self.min_po and pocet_obyv < self.max_po\
-                and feature["krajLabel"] in self.kraj_filtr\
-                and feature["okresLabel"] in self.okres_filtr:
+            if self.obce == True:
+                if feature["mestoLabel"] == "obec"\
+                    and pocet_obyv > self.min_po and pocet_obyv < self.max_po\
+                    and feature["krajLabel"] in self.kraj_filtr\
+                    and feature["okresLabel"] in self.okres_filtr:
 
-                self.beginInsertRows(self.index(0).parent(),input_idx,input_idx)
-                self.city_list.append(feature)
-                self.endInsertRows()
-                input_idx += 1
-                #print(f"přidávám feature {input_idx}")
+                    self.beginInsertRows(self.index(0).parent(),input_idx,input_idx)
+                    self.city_list.append(feature)
+                    self.endInsertRows()
+                    input_idx += 1
+                    #print(f"přidávám feature {input_idx}")
             
-            if self.mesta == True and "mestoLabel" in feature:
+            if self.mesta == True:
                 if feature["mestoLabel"] == "město v Česku"\
                     and pocet_obyv > self.min_po and pocet_obyv < self.max_po\
                     and feature["krajLabel"] in self.kraj_filtr\
