@@ -33,8 +33,8 @@ class FiltrModel(QAbstractListModel):
         self.okres_filtr = ["všechny"]
         #self.kraj_all = ["Jihočeský", "Jihomoravský", "Karlovarský", "Královéhradecký", "Liberecký", "Moravskoslezský", "Olomoucký", "Pardubický", "Plzeňský", "Praha", "Středočeský", "Ústecký", "Vysočina", "Zlínský"]
         #self.okres_all = ["České Budějovice", "Český Krumlov", "Jindřichův Hradec", "Písek", "Prachatice", "Strakonice", "Tábor", "Blansko", "Brno-město", "Brno-venkov", "Břeclav", "Hodonín", "Vyškov", "Znojmo", "Cheb", "Karlovy Vary", "Sokolov", "Hradec Králové", "Jičín", "Náchod", "Rychnov nad Kněžnou", "Trutnov", "Česká Lípa", "Jablonec nad Nisou", "Liberec", "Semily", "Bruntál", "Frýdek-Místek", "Karviná", "Nový Jičín", "Opava", "Ostrava-město", "Jeseník", "Olomouc", "Prostějov", "Přerov", "Šumperk", "Chrudim", "Pardubice", "Svitavy", "Ústí nad Orlicí", "Domažlice", "Klatovy", "Plzeň-jih", "Plzeň-město", "Plzeň-sever", "Rokycany", "Tachov", "Praha", "Benešov", "Beroun", "Kladno", "Kolín", "Kutná Hora", "Mělník", "Mladá Boleslav", "Nymburk", "Praha-východ", "Praha-západ", "Příbram", "Rakovník", "Děčín", "Chomutov", "Litoměřice", "Louny", "Most", "Teplice", "Ústí nad Labem", "Havlíčkův Brod", "Jihlava", "Pelhřimov", "Třebíč", "Žďár nad Sázavou", "Kroměříž", "Uherské Hradiště", "Vsetín", "Zlín"]
-        # self.kraj_all = set()
-        # self.okres_all = set()
+        self.kraj_all = set()
+        self.okres_all = set()
         self.city_list = []
         self.puvodni_list = []
         if filename:
@@ -99,6 +99,9 @@ class FiltrModel(QAbstractListModel):
                 lon,lat = pos.split("(")[1].split(")")[0].split(" ")
                 c['location'] = QGeoCoordinate(float(lat),float(lon))
 
+                self.kraj_all.add(c['krajLabel'])
+                self.okres_all.add(c['okresLabel'])
+
     def rowCount(self, parent:QtCore.QModelIndex=...) -> int:
         """ Return number of cities in the list"""
         return len(self.city_list)
@@ -144,20 +147,6 @@ class FiltrModel(QAbstractListModel):
         roles[self.Roles.OKRES.value] = QByteArray(b'okres')
         print(roles)
         return roles
-    
-    def get_kraj_all(self):
-        return set((feature["krajLabel"] for feature in self.puvodni_list if "krajLabel" in feature))
-        
-        # for feature in self.puvodni_list:
-        #     if "krajLabel" in feature:
-        #         self.kraj_all.add(feature["krajLabel"])
-
-    def get_okres_all(self):
-        return set((feature["okresLabel"] for feature in self.puvodni_list if "okresLabel" in feature))
-        
-        # for feature in self.puvodni_list:
-        #     if "okresLabel" in feature:
-        #         self.okres_all.add(feature["okresLabel"])
 
     @Slot(str)
     def set_kraj(self, val: str):
@@ -178,23 +167,15 @@ class FiltrModel(QAbstractListModel):
         self.city_list = []
         self.endRemoveRows()
 
-        kraj_all = self.get_kraj_all()
-        okres_all = self.get_okres_all()
-
-        # print(f"kraj_all: {len(self.kraj_all)}")
-        # print(f"okres_all: {len(self.okres_all)}")
-        print(f"kraj_all: {len(kraj_all)}")
-        print(f"okres_all: {len(okres_all)}")
-
+        print(f"kraj_all: {len(self.kraj_all)}")
+        print(f"okres_all: {len(self.okres_all)}")
 
         input_idx = 0
         if "všechny" in self.kraj_filtr:
-            #self.kraj_filtr = self.kraj_all
-            self.kraj_filtr = kraj_all
+            self.kraj_filtr = self.kraj_all
         
         if "všechny" in self.okres_filtr:
-            #self.okres_filtr = self.okres_all
-            self.okres_filtr = okres_all
+            self.okres_filtr = self.okres_all
 
         for feature in self.puvodni_list:
             pocet_obyv = int(feature["population"])
