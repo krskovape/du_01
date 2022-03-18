@@ -87,7 +87,7 @@ for feature in data:
     if feature ["okresLabel"] == "okres Chrudim":
         feature ["okresLabel"] = "Chrudim"
     if feature ["okresLabel"] == "okres Jablonec nad Nisou":
-        feature ["okresLabel"] = "Jablonec nad Nison"
+        feature ["okresLabel"] = "Jablonec nad Nisou"
     if feature ["okresLabel"] == "okres Jeseník":
         feature ["okresLabel"] = "Jeseník"	
     if feature ["okresLabel"] == "okres Jičín":
