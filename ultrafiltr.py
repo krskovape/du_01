@@ -27,7 +27,6 @@ class FiltrModel(QAbstractListModel):
         QAbstractListModel.__init__(self)
         self._min_po = 0
         self._max_po = 100
-        self._typ_filtr = []
         self._obce = False
         self._mesta = False
         self.kraj_filtr = ["všechny"]
@@ -62,18 +61,6 @@ class FiltrModel(QAbstractListModel):
     
     max_po_changed = Signal()
     max_po = Property(int, get_max_po, set_max_po, notify=max_po_changed)
-
-    #property typ_filtr
-    def get_typ_filtr(self):
-        return self._typ_filtr
-    
-    def set_typ_filtr(self,val):
-        if val != self.typ_filtr:
-            self._typ_filtr = val
-            self.typ_filtr_changed.emit()
-    
-    typ_filtr_changed = Signal()
-    typ_filtr = Property(list, get_typ_filtr, set_typ_filtr, notify=typ_filtr_changed)
 
     #property obce
     def get_obce(self):
@@ -143,15 +130,6 @@ class FiltrModel(QAbstractListModel):
         print(roles)
         return roles
 
-    @Slot(str)
-    def add_to_typ(self, val: str):
-        self.typ_filtr.append(val)
-        print(self.typ_filtr)
-
-    @Slot(str)
-    def remove_from_typ(self, val: str):
-        self.typ_filtr.remove(val)
-        print(self.typ_filtr)
 
     @Slot(str)
     def add_to_kraj(self, val: str):
