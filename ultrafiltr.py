@@ -110,8 +110,21 @@ class FiltrModel(QAbstractListModel):
             return self.city_list[index.row()]["area"]
         elif role == self.Roles.POPULATION.value: # On population role return population
             return self.city_list[index.row()]["population"]
-        elif role == self.Roles.TYP.value: 
+        
+        # elif role == self.Roles.TYP.value:
+        #     if "mestoLabel" in self.city_list:
+        #         return self.city_list[index.row()]["mestoLabel"]
+        #     else: return "nic"
+
+        # elif role == self.Roles.TYP.value:
+        #     if self.city_list[index.row()]["mestoLabel"]: 
+        #         return self.city_list[index.row()]["mestoLabel"]
+        #     else: return "nic"
+
+        elif role == self.Roles.TYP.value:
             return self.city_list[index.row()]["mestoLabel"]
+
+
         elif role == self.Roles.KRAJ.value: 
             return self.city_list[index.row()]["krajLabel"]
         elif role == self.Roles.OKRES.value: 

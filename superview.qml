@@ -55,6 +55,9 @@ RowLayout {
                 to: 1500000
                 first.value: filtrModel.min_po
                 second.value: filtrModel.max_po
+                Component.onCompleted: {
+                        sliderObyv.setValues(0,1500000)
+                }
                 Binding {
                     target: filtrModel
                     property: "min_po"
@@ -224,16 +227,16 @@ RowLayout {
                         spacing: 2
                         Text {
                             text: model.display
-                            // color: {
-                            //     color = "black"
-                            //     if (model.typ == "město v Česku")
-                            //         color = "red"
-                            // }
-                            // font.bold: {
-                            //     font.bold = false
-                            //     if (model.typ == "město v Česku")
-                            //         font.bold = true
-                            // }                        
+                            color: {
+                                color = "black"
+                                if (model.typ == "město v Česku")
+                                    color = "red"
+                            }
+                            font.bold: {
+                                font.bold = false
+                                if (model.typ == "město v Česku")
+                                    font.bold = true
+                            }                        
                         }
                         Rectangle {
                             height: 7
@@ -265,11 +268,11 @@ RowLayout {
                     bottomPadding: 7
                     Text {
                         text: model.display
-                        // color: {
-                        //     color = "black"
-                        //     if (model.typ == "město v Česku")
-                        //         color = "red"
-                        // }
+                        color: {
+                            color = "black"
+                            if (model.typ == "město v Česku")
+                                color = "red"
+                        }
                         font.bold: true
                     }
                     Row {
