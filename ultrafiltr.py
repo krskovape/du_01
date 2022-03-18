@@ -132,23 +132,15 @@ class FiltrModel(QAbstractListModel):
 
 
     @Slot(str)
-    def add_to_kraj(self, val: str):
+    def set_kraj(self, val: str):
+        self.kraj_filtr = []
         self.kraj_filtr.append(val)
         print(self.kraj_filtr)
 
-    @Slot()
-    def remove_from_kraj(self):
-        self.kraj_filtr = []
-        print(self.kraj_filtr)
-
     @Slot(str)
-    def add_to_okres(self, val: str):
-        self.okres_filtr.append(val)
-        print(self.okres_filtr)
-
-    @Slot()
-    def remove_from_okres(self):
+    def set_okres(self, val: str):
         self.okres_filtr = []
+        self.okres_filtr.append(val)
         print(self.okres_filtr)
     
     @Slot()

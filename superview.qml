@@ -115,11 +115,10 @@ RowLayout {
                 model: ["všechny","Jihočeský", "Jihomoravský", "Karlovarský", "Královéhradecký", "Liberecký", "Moravskoslezský", "Olomoucký", "Pardubický", "Plzeňský", "Praha", "Středočeský", "Ústecký", "Vysočina", "Zlínský"]
                 onActivated: {
                     console.log("kraj: "+currentText)
-                    filtrModel.remove_from_kraj()
-                    filtrModel.add_to_kraj(currentText)
+                    filtrModel.set_kraj(currentText)
                     if (currentIndex == 0)
                         okresBox.model = ["všechny"]
-                        filtrModel.add_to_okres("všechny")
+                        filtrModel.set_okres("všechny")
                     if (currentIndex == 1)
                         okresBox.model = ["všechny", "České Budějovice", "Český Krumlov", "Jindřichův Hradec", "Písek", "Prachatice", "Strakonice", "Tábor"]
                     if (currentIndex == 2)
@@ -149,11 +148,6 @@ RowLayout {
                     if (currentIndex == 14)
                         okresBox.model = ["všechny", "Kroměříž", "Uherské Hradiště", "Vsetín", "Zlín"]                      
                 }
-                /*Binding {
-                    target: filtrModel
-                    property: "kraj_filtr"
-                    value: krajBox.currentText
-                }*/
             }
 
             Label {
@@ -166,14 +160,8 @@ RowLayout {
                 model: ["všechny"]
                 onActivated: {
                     console.log("okes: "+currentText)
-                    filtrModel.remove_from_okres()
-                    filtrModel.add_to_okres(currentText)
+                    filtrModel.set_okres(currentText)
                 }
-                /*Binding {
-                    target: filtrModel
-                    property: "okres_filtr"
-                    value: okresBox.currentText
-                }*/
             }
         }
         
@@ -236,16 +224,16 @@ RowLayout {
                         spacing: 2
                         Text {
                             text: model.display
-                            color: {
-                                color = "black"
-                                if (model.typ == "město v Česku")
-                                    color = "red"
-                            }
-                            font.bold: {
-                                font.bold = false
-                                if (model.typ == "město v Česku")
-                                    font.bold = true
-                            }                        
+                            // color: {
+                            //     color = "black"
+                            //     if (model.typ == "město v Česku")
+                            //         color = "red"
+                            // }
+                            // font.bold: {
+                            //     font.bold = false
+                            //     if (model.typ == "město v Česku")
+                            //         font.bold = true
+                            // }                        
                         }
                         Rectangle {
                             height: 7
@@ -277,11 +265,11 @@ RowLayout {
                     bottomPadding: 7
                     Text {
                         text: model.display
-                        color: {
-                            color = "black"
-                            if (model.typ == "město v Česku")
-                                color = "red"
-                        }
+                        // color: {
+                        //     color = "black"
+                        //     if (model.typ == "město v Česku")
+                        //         color = "red"
+                        // }
                         font.bold: true
                     }
                     Row {
@@ -314,12 +302,12 @@ RowLayout {
                     }
                     //funguje jen na tenhle obrázek, proč?
                     //source bere jen nezabezpečené images????
-                    Image {
-                        height:150
-                        width: 150
-                        //source: "http://i.kym-cdn.com/entries/icons/original/000/002/144/You_Shall_Not_Pass!_0-1_screenshot.jpg" //funguje
-                        source: "http://upload.wikimedia.org/wikipedia/commons/b/be/Vl%C4%8Deves_CoA.jpg"
-                    }
+                    // Image {
+                    //     height:150
+                    //     width: 150
+                    //     //source: "http://i.kym-cdn.com/entries/icons/original/000/002/144/You_Shall_Not_Pass!_0-1_screenshot.jpg" //funguje
+                    //     source: "http://upload.wikimedia.org/wikipedia/commons/b/be/Vl%C4%8Deves_CoA.jpg"
+                    // }
                 }
                 MouseArea {
                     anchors.fill: parent
