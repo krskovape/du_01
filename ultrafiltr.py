@@ -10,7 +10,7 @@ import json
 
 #VIEW_URL = "ultraview.qml"
 VIEW_URL = "superview.qml"
-PUVODNI_LIST_FILE = "data_ukol1.json"
+PUVODNI_LIST_FILE = "data_ukol1_znak.json"
 
 
 class FiltrModel(QAbstractListModel):
@@ -22,6 +22,7 @@ class FiltrModel(QAbstractListModel):
         TYP = QtCore.Qt.UserRole+3
         KRAJ = QtCore.Qt.UserRole+4
         OKRES = QtCore.Qt.UserRole+5
+        ZNAK = QtCore.Qt.UserRole+6
 
     def __init__ (self,filename=None):
         QAbstractListModel.__init__(self)
@@ -130,6 +131,10 @@ class FiltrModel(QAbstractListModel):
 
                 if "mestoLabel" not in c:
                     c["mestoLabel"] = "obec"
+                
+                if "znak" not in c:
+                    #c["znak"] = "https://www.meme-arsenal.com/memes/422425412debbe780318e9bfee9efdac.jpg" #bílý obdélník
+                    c["znak"] = "https://m.media-amazon.com/images/I/212yLYOAlcL._AC_.jpg"  #žlutý obdélník
 
     def rowCount(self, parent:QtCore.QModelIndex=...) -> int:
         """ Return number of cities in the list"""
@@ -150,6 +155,8 @@ class FiltrModel(QAbstractListModel):
             return self.city_list[index.row()]["krajLabel"]
         elif role == self.Roles.OKRES.value: 
             return self.city_list[index.row()]["okresLabel"]
+        elif role == self.Roles.ZNAK.value: 
+            return self.city_list[index.row()]["znak"]
     
     def roleNames(self) -> typing.Dict[int, QByteArray]:
         """Returns dict with role numbers and role names for default and custom roles together"""
@@ -161,7 +168,8 @@ class FiltrModel(QAbstractListModel):
         roles[self.Roles.TYP.value] = QByteArray(b'typ')
         roles[self.Roles.KRAJ.value] = QByteArray(b'kraj')
         roles[self.Roles.OKRES.value] = QByteArray(b'okres')
-        print(roles)
+        roles[self.Roles.ZNAK.value] = QByteArray(b'znak')
+        #print(roles)
         return roles
 
     @Slot(str)
