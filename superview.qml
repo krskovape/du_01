@@ -21,234 +21,252 @@ RowLayout {
         //Layout.fillHeight: true
         Layout.alignment: Qt.AlignTop
         
-        Column {
-            width: parent.width
-            height: 500
-            spacing: 15
+        
+        //width: parent.width
+        //height: 500
+        spacing: 15
+        //topPadding: 3
+        //bottomPadding: 30
+
+        Row {
+            spacing: 5
             topPadding: 3
-            bottomPadding: 30
+            Layout.alignment: Qt.AlignHCenter
+            CheckBox {
+                id: městaCheck
+                text: "Města"
+                checkable: true
+                onCheckStateChanged: filtrModel.mesta = městaCheck.checked
+            }
+            CheckBox {
+                id: obceCheck
+                text: "Obce"
+                checkable: true
+                onCheckStateChanged: filtrModel.obce = obceCheck.checked
+            }
+        }
+
+        Label {
+            text: "Počet obyvatel"
+            Layout.alignment: Qt.AlignHCenter
+            topPadding: 8
+            font.bold: true
+        }
+
+        RangeSlider {
+            id: sliderObyv
+            from: 0
+            to: 1500000
+            first.value: filtrModel.min_po
+            second.value: filtrModel.max_po
+            Layout.alignment: Qt.AlignHCenter
+
+            Component.onCompleted: {
+                    sliderObyv.setValues(0,1500000)
+            }
+            Binding {
+                target: filtrModel
+                property: "min_po"
+                value: sliderObyv.first.value
+            }
+            Binding {
+                target: filtrModel
+                property: "max_po"
+                value: sliderObyv.second.value
+            }
+
+        }
+
+        Row {
+            spacing: 70
+            Layout.alignment: Qt.AlignHCenter
 
             Row {
                 spacing: 5
-                CheckBox {
-                    id: městaCheck
-                    text: "Města"
-                    checkable: true
-                    onCheckStateChanged: filtrModel.mesta = městaCheck.checked
+
+                Label {
+                    text: "Od: "
                 }
-                CheckBox {
-                    id: obceCheck
-                    text: "Obce"
-                    checkable: true
-                    onCheckStateChanged: filtrModel.obce = obceCheck.checked
+                TextInput {
+                    id: minPoInput
+                    text: filtrModel.min_po
+                    Binding {
+                        target: filtrModel
+                        property: "min_po"
+                        value: minPoInput.text
+                    }
                 }
             }
-
-
-            Label {
-                text: "Počet obyvatel"
-            }
-
-            RangeSlider {
-                id: sliderObyv
-                from: 0
-                to: 1500000
-                first.value: filtrModel.min_po
-                second.value: filtrModel.max_po
-                Component.onCompleted: {
-                        sliderObyv.setValues(0,1500000)
-                }
-                Binding {
-                    target: filtrModel
-                    property: "min_po"
-                    value: sliderObyv.first.value
-                }
-                Binding {
-                    target: filtrModel
-                    property: "max_po"
-                    value: sliderObyv.second.value
-                }
-
-            }
-
             Row {
-                spacing: 70
+                spacing: 5
 
-                Row {
-                    spacing: 5
-
-                    Label {
-                        text: "Od: "
-                    }
-                    TextInput {
-                        id: minPoInput
-                        text: filtrModel.min_po
-                        Binding {
-                            target: filtrModel
-                            property: "min_po"
-                            value: minPoInput.text
-                        }
-                    }
+                Label {
+                    text: "Do: "
                 }
-                Row {
-                    spacing: 5
-
-                    Label {
-                        text: "Do: "
+                TextInput {
+                    id: maxPoInput
+                    text: filtrModel.max_po
+                    Binding {
+                        target: filtrModel
+                        property: "max_po"
+                        value: maxPoInput.text
                     }
-                    TextInput {
-                        id: maxPoInput
-                        text: filtrModel.max_po
-                        Binding {
-                            target: filtrModel
-                            property: "max_po"
-                            value: maxPoInput.text
-                        }
-                    }
-                }
-            }
-
-            Label {
-                textFormat: Text.RichText
-                text: "Rozloha [km<sup>2</sup>]"
-            }
-
-            RangeSlider {
-                id: sliderArea
-                from: 0
-                to: 500
-                first.value: filtrModel.min_area
-                second.value: filtrModel.max_area
-                Component.onCompleted: {
-                        sliderArea.setValues(0,500)
-                }
-                Binding {
-                    target: filtrModel
-                    property: "min_area"
-                    value: sliderArea.first.value
-                }
-                Binding {
-                    target: filtrModel
-                    property: "max_area"
-                    value: sliderArea.second.value
-                }
-
-            }
-
-            Row {
-                spacing: 70
-
-                Row {
-                    spacing: 5
-
-                    Label {
-                        text: "Od: "
-                    }
-                    TextInput {
-                        id: minAreaInput
-                        text: filtrModel.min_area
-                        Binding {
-                            target: filtrModel
-                            property: "min_area"
-                            value: minAreaInput.text
-                        }
-                    }
-                }
-                Row {
-                    spacing: 5
-
-                    Label {
-                        text: "Do: "
-                    }
-                    TextInput {
-                        id: maxAreaInput
-                        text: filtrModel.max_area
-                        Binding {
-                            target: filtrModel
-                            property: "max_area"
-                            value: maxAreaInput.text
-                        }
-                    }
-                }
-            }
-
-            Label {
-                text: "Kraj"
-            }
-
-            ComboBox {
-                id: krajBox
-                width: parent.width
-                model: ["všechny","Jihočeský", "Jihomoravský", "Karlovarský", "Královéhradecký", "Liberecký", "Moravskoslezský", "Olomoucký", "Pardubický", "Plzeňský", "Praha", "Středočeský", "Ústecký", "Vysočina", "Zlínský"]
-                onActivated: {
-                    console.log("kraj: "+currentText)
-                    filtrModel.set_kraj(currentText)
-                    if (currentIndex == 0)
-                        okresBox.model = ["všechny"]
-                        filtrModel.set_okres("všechny")
-                    if (currentIndex == 1)
-                        okresBox.model = ["všechny", "České Budějovice", "Český Krumlov", "Jindřichův Hradec", "Písek", "Prachatice", "Strakonice", "Tábor"]
-                    if (currentIndex == 2)
-                        okresBox.model = ["všechny", "Blansko", "Brno-město", "Brno-venkov", "Břeclav", "Hodonín", "Vyškov", "Znojmo"]
-                    if (currentIndex == 3)
-                        okresBox.model = ["všechny", "Cheb", "Karlovy Vary", "Sokolov"]
-                    if (currentIndex == 4)
-                        okresBox.model = ["všechny", "Hradec Králové", "Jičín", "Náchod", "Rychnov nad Kněžnou", "Trutnov"]
-                    if (currentIndex == 5)
-                        okresBox.model = ["všechny", "Česká Lípa", "Jablonec nad Nisou", "Liberec", "Semily"]
-                    if (currentIndex == 6)
-                        okresBox.model = ["všechny", "Bruntál", "Frýdek-Místek", "Karviná", "Nový Jičín", "Opava", "Ostrava-město"]
-                    if (currentIndex == 7)
-                        okresBox.model = ["všechny", "Jeseník", "Olomouc", "Prostějov", "Přerov", "Šumperk"]
-                    if (currentIndex == 8)
-                        okresBox.model = ["všechny", "Chrudim", "Pardubice", "Svitavy", "Ústí nad Orlicí"]
-                    if (currentIndex == 9)
-                        okresBox.model = ["všechny", "Domažlice", "Klatovy", "Plzeň-jih", "Plzeň-město", "Plzeň-sever", "Rokycany", "Tachov"]
-                    if (currentIndex == 10)
-                        okresBox.model = ["všechny"]
-                    if (currentIndex == 11)
-                        okresBox.model = ["všechny", "Benešov", "Beroun", "Kladno", "Kolín", "Kutná Hora", "Mělník", "Mladá Boleslav", "Nymburk", "Praha-východ", "Praha-západ", "Příbram", "Rakovník"]
-                    if (currentIndex == 12)
-                        okresBox.model = ["všechny", "Děčín", "Chomutov", "Litoměřice", "Louny", "Most", "Teplice", "Ústí nad Labem"]
-                    if (currentIndex == 13)
-                        okresBox.model = ["všechny", "Havlíčkův Brod", "Jihlava", "Pelhřimov", "Třebíč", "Žďár nad Sázavou"]
-                    if (currentIndex == 14)
-                        okresBox.model = ["všechny", "Kroměříž", "Uherské Hradiště", "Vsetín", "Zlín"]                      
-                }
-            }
-
-            Label {
-                text: "Okres"
-            }
-
-            ComboBox {
-                id: okresBox
-                width: parent.width
-                model: ["všechny"]
-                onActivated: {
-                    console.log("okes: "+currentText)
-                    filtrModel.set_okres(currentText)
                 }
             }
         }
-        
-        Item {
-            width: parent.width
-            height: children.height
-            Layout.alignment: Qt.AlignBottom
 
-            Button {
-                width: parent.width
-                //Layout.alignment: Qt.AlignBottom
+        Label {
+            textFormat: Text.RichText
+            text: "Rozloha [km<sup>2</sup>]"
+            Layout.alignment: Qt.AlignHCenter
+            topPadding: 15
+            font.bold: true
+        }
 
-                id: filtrButton
-                text: "Filtrovat"
+        RangeSlider {
+            id: sliderArea
+            from: 0
+            to: 500
+            first.value: filtrModel.min_area
+            second.value: filtrModel.max_area
+            Layout.alignment: Qt.AlignHCenter
 
-                onClicked: {
-                    filtrModel.filtrovat()
-                    cityList.currentIndex = -1
-                    mapaObce.fitViewportToVisibleMapItems()
+            Component.onCompleted: {
+                    sliderArea.setValues(0,500)
+            }
+            Binding {
+                target: filtrModel
+                property: "min_area"
+                value: sliderArea.first.value
+            }
+            Binding {
+                target: filtrModel
+                property: "max_area"
+                value: sliderArea.second.value
+            }
+
+        }
+
+        Row {
+            spacing: 70
+            Layout.alignment: Qt.AlignHCenter
+
+            Row {
+                spacing: 5
+
+                Label {
+                    text: "Od: "
                 }
+                TextInput {
+                    id: minAreaInput
+                    text: filtrModel.min_area
+                    Binding {
+                        target: filtrModel
+                        property: "min_area"
+                        value: minAreaInput.text
+                    }
+                }
+            }
+            Row {
+                spacing: 5
+
+                Label {
+                    text: "Do: "
+                }
+                TextInput {
+                    id: maxAreaInput
+                    text: filtrModel.max_area
+                    Binding {
+                        target: filtrModel
+                        property: "max_area"
+                        value: maxAreaInput.text
+                    }
+                }
+            }
+        }
+
+        Label {
+            text: "Kraj"
+            Layout.alignment: Qt.AlignHCenter
+            topPadding: 15
+            font.bold: true
+        }
+
+        ComboBox {
+            id: krajBox
+            //width: parent.width
+            anchors.left: parent.left
+            anchors.right: parent.right
+            Layout.alignment: Qt.AlignHCenter
+            model: ["všechny","Jihočeský", "Jihomoravský", "Karlovarský", "Královéhradecký", "Liberecký", "Moravskoslezský", "Olomoucký", "Pardubický", "Plzeňský", "Praha", "Středočeský", "Ústecký", "Vysočina", "Zlínský"]
+            onActivated: {
+                console.log("kraj: "+currentText)
+                filtrModel.set_kraj(currentText)
+                if (currentIndex == 0)
+                    okresBox.model = ["všechny"]
+                    filtrModel.set_okres("všechny")
+                if (currentIndex == 1)
+                    okresBox.model = ["všechny", "České Budějovice", "Český Krumlov", "Jindřichův Hradec", "Písek", "Prachatice", "Strakonice", "Tábor"]
+                if (currentIndex == 2)
+                    okresBox.model = ["všechny", "Blansko", "Brno-město", "Brno-venkov", "Břeclav", "Hodonín", "Vyškov", "Znojmo"]
+                if (currentIndex == 3)
+                    okresBox.model = ["všechny", "Cheb", "Karlovy Vary", "Sokolov"]
+                if (currentIndex == 4)
+                    okresBox.model = ["všechny", "Hradec Králové", "Jičín", "Náchod", "Rychnov nad Kněžnou", "Trutnov"]
+                if (currentIndex == 5)
+                    okresBox.model = ["všechny", "Česká Lípa", "Jablonec nad Nisou", "Liberec", "Semily"]
+                if (currentIndex == 6)
+                    okresBox.model = ["všechny", "Bruntál", "Frýdek-Místek", "Karviná", "Nový Jičín", "Opava", "Ostrava-město"]
+                if (currentIndex == 7)
+                    okresBox.model = ["všechny", "Jeseník", "Olomouc", "Prostějov", "Přerov", "Šumperk"]
+                if (currentIndex == 8)
+                    okresBox.model = ["všechny", "Chrudim", "Pardubice", "Svitavy", "Ústí nad Orlicí"]
+                if (currentIndex == 9)
+                    okresBox.model = ["všechny", "Domažlice", "Klatovy", "Plzeň-jih", "Plzeň-město", "Plzeň-sever", "Rokycany", "Tachov"]
+                if (currentIndex == 10)
+                    okresBox.model = ["všechny"]
+                if (currentIndex == 11)
+                    okresBox.model = ["všechny", "Benešov", "Beroun", "Kladno", "Kolín", "Kutná Hora", "Mělník", "Mladá Boleslav", "Nymburk", "Praha-východ", "Praha-západ", "Příbram", "Rakovník"]
+                if (currentIndex == 12)
+                    okresBox.model = ["všechny", "Děčín", "Chomutov", "Litoměřice", "Louny", "Most", "Teplice", "Ústí nad Labem"]
+                if (currentIndex == 13)
+                    okresBox.model = ["všechny", "Havlíčkův Brod", "Jihlava", "Pelhřimov", "Třebíč", "Žďár nad Sázavou"]
+                if (currentIndex == 14)
+                    okresBox.model = ["všechny", "Kroměříž", "Uherské Hradiště", "Vsetín", "Zlín"]                      
+            }
+        }
+
+        Label {
+            text: "Okres"
+            Layout.alignment: Qt.AlignHCenter
+            topPadding: 15
+            font.bold: true
+        }
+
+        ComboBox {
+            id: okresBox
+            anchors.left: parent.left
+            anchors.right: parent.right
+            Layout.alignment: Qt.AlignHCenter
+            model: ["všechny"]
+            onActivated: {
+                console.log("okes: "+currentText)
+                filtrModel.set_okres(currentText)
+            }
+        }
+
+        Button {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            Layout.alignment: Qt.AlignHCenter
+
+            id: filtrButton
+            text: "Filtrovat"
+
+            onClicked: {
+                filtrModel.filtrovat()
+                cityList.currentIndex = -1
+                mapaObce.fitViewportToVisibleMapItems()
             }
         }
     }
