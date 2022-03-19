@@ -296,6 +296,10 @@ RowLayout {
             Column {
                 spacing: 20
 
+                Text {
+                    text: "Zvolený soubor musí mít příponu '.json'"
+                }
+
                 TextInput {
                     id: saveInput
                     text: filtrModel.output_file
@@ -310,6 +314,7 @@ RowLayout {
                 Button {
                     id: fileSaveButton
                     text: "Vybrat soubor a uložit"
+                    onClicked: filtrModel.save_to_file()
                 }
             }
         }

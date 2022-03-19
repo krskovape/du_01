@@ -244,6 +244,11 @@ class FiltrModel(QAbstractListModel):
 
         #print(self.city_list)    
         print(f"Načteno {input_idx} obcí.")
+    
+    # @Slot()
+    # def save_to_file(self):
+    #     with open(self.output_file, 'w', encoding ='utf8') as json_file:
+    #         json.dump(self.city_list, json_file, ensure_ascii = False)
             
 
 app = QGuiApplication(sys.argv)
