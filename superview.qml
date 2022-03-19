@@ -183,7 +183,7 @@ RowLayout {
                 onClicked: {
                     filtrModel.filtrovat()
                     cityList.currentIndex = -1
-                    //mapaObce.fitViewportToVisibleMapItems()
+                    mapaObce.fitViewportToVisibleMapItems()
                 }
             }
         }
