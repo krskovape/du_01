@@ -26,7 +26,9 @@ class FiltrModel(QAbstractListModel):
     def __init__ (self,filename=None):
         QAbstractListModel.__init__(self)
         self._min_po = 0
-        self._max_po = 100
+        self._max_po = 1500000
+        self._min_area = 0.0
+        self._max_area = 500.0
         self._obce = False
         self._mesta = False
         self.kraj_filtr = ["všechny"]
@@ -63,6 +65,30 @@ class FiltrModel(QAbstractListModel):
     
     max_po_changed = Signal()
     max_po = Property(int, get_max_po, set_max_po, notify=max_po_changed)
+
+    #property min_area
+    def get_min_area(self):
+        return self._min_area
+    
+    def set_min_area(self,val):
+        if val != self.min_area:
+            self._min_area = val
+            self.min_area_changed.emit()
+    
+    min_area_changed = Signal()
+    min_area = Property(float, get_min_area, set_min_area, notify=min_area_changed)
+
+    #property max_area
+    def get_max_area(self):
+        return self._max_area
+    
+    def set_max_area(self,val):
+        if val != self.max_area:
+            self._max_area = val
+            self.max_area_changed.emit()
+    
+    max_area_changed = Signal()
+    max_area = Property(float, get_max_area, set_max_area, notify=max_area_changed)
 
     #property obce
     def get_obce(self):
@@ -169,9 +195,11 @@ class FiltrModel(QAbstractListModel):
 
         for feature in self.puvodni_list:
             pocet_obyv = int(feature["population"])
+            rozloha = float(feature["area"])
             if self.obce == True:
                 if feature["mestoLabel"] == "obec"\
                     and pocet_obyv > self.min_po and pocet_obyv < self.max_po\
+                    and rozloha > self.min_area and rozloha < self.max_area\
                     and feature["krajLabel"] in self.kraj_filtr\
                     and feature["okresLabel"] in self.okres_filtr:
 
@@ -184,6 +212,7 @@ class FiltrModel(QAbstractListModel):
             if self.mesta == True:
                 if feature["mestoLabel"] == "město v Česku"\
                     and pocet_obyv > self.min_po and pocet_obyv < self.max_po\
+                    and rozloha > self.min_area and rozloha < self.max_area\
                     and feature["krajLabel"] in self.kraj_filtr\
                     and feature["okresLabel"] in self.okres_filtr:
 

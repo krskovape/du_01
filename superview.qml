@@ -109,6 +109,70 @@ RowLayout {
             }
 
             Label {
+                textFormat: Text.RichText
+                text: "Rozloha [km<sup>2</sup>]"
+            }
+
+            RangeSlider {
+                id: sliderArea
+                from: 0
+                to: 500
+                first.value: filtrModel.min_area
+                second.value: filtrModel.max_area
+                Component.onCompleted: {
+                        sliderArea.setValues(0,500)
+                }
+                Binding {
+                    target: filtrModel
+                    property: "min_area"
+                    value: sliderArea.first.value
+                }
+                Binding {
+                    target: filtrModel
+                    property: "max_area"
+                    value: sliderArea.second.value
+                }
+
+            }
+
+            Row {
+                spacing: 70
+
+                Row {
+                    spacing: 5
+
+                    Label {
+                        text: "Od: "
+                    }
+                    TextInput {
+                        id: minAreaInput
+                        text: filtrModel.min_area
+                        Binding {
+                            target: filtrModel
+                            property: "min_area"
+                            value: minAreaInput.text
+                        }
+                    }
+                }
+                Row {
+                    spacing: 5
+
+                    Label {
+                        text: "Do: "
+                    }
+                    TextInput {
+                        id: maxAreaInput
+                        text: filtrModel.max_area
+                        Binding {
+                            target: filtrModel
+                            property: "max_area"
+                            value: maxAreaInput.text
+                        }
+                    }
+                }
+            }
+
+            Label {
                 text: "Kraj"
             }
 
