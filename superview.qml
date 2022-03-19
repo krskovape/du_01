@@ -269,11 +269,50 @@ RowLayout {
                 mapaObce.fitViewportToVisibleMapItems()
             }
         }
+
+        Button {
+            id: saveButton
+            anchors.left: parent.left
+            anchors.right: parent.right
+            Layout.alignment: Qt.AlignHCenter
+            text: "Uložit"
+
+            onClicked: savePopup.open()
+        }
     }
 
     Rectangle {
         Layout.fillWidth: true
         Layout.fillHeight: true
+
+        Popup {
+            id: savePopup
+            width: 500
+            height: 150
+            topPadding: 30
+            leftPadding: 30
+            closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+
+            Column {
+                spacing: 20
+
+                TextInput {
+                    id: saveInput
+                    text: filtrModel.output_file
+
+                    Binding {
+                        target: filtrModel
+                        property: "output_file"
+                        value: saveInput.text
+                    }
+                }
+                
+                Button {
+                    id: fileSaveButton
+                    text: "Vybrat soubor a uložit"
+                }
+            }
+        }
 
         Plugin {
                 id: mapPlugin
