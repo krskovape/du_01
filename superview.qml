@@ -270,14 +270,21 @@ RowLayout {
             title: "Vyberte soubor pro uložení vyfiltrovaných měst"
             folder: shortcuts.home
             selectExisting: false
+            defaultSuffix: "json"
             nameFilters: ["*.json"]
             onAccepted: {
-                console.log("Vybrali jste soubor: " + saveFileDialog.fileUrls)
-                filtrModel.filtrovat()
+                console.log("Vybrali jste soubor: " + saveFileDialog.fileUrl)
+                //filtrModel.output_file = saveFileDialog.fileUrl
+                filtrModel.save_to_file(saveFileDialog.fileUrl)
                 Qt.quit()
             }
             onRejected: Qt.quit()
         }
+        // Binding {
+        //     target: filtrModel
+        //     property: "output_file"
+        //     value: saveFileDialog.fileUrl
+        // }
 
         // The map component
         Plugin {

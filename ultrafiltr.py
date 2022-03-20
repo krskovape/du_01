@@ -37,7 +37,7 @@ class FiltrModel(QAbstractListModel):
         self.okres_filtr = ["všechny"]
         self.kraj_all = set()
         self.okres_all = set()
-        self._output_file = "Sem zadejte cestu k výstupnímu souboru"
+        self._output_file = ""
         self.city_list = []
         self.puvodni_list = []
         if filename:
@@ -254,6 +254,11 @@ class FiltrModel(QAbstractListModel):
     # def save_to_file(self):
     #     with open(self.output_file, 'w', encoding ='utf8') as json_file:
     #         json.dump(self.city_list, json_file, ensure_ascii = False)
+
+    @Slot(str)
+    def save_to_file(self, file):
+        with open(file, 'w', encoding ='utf8') as json_file:
+            json.dump(self.city_list, json_file, ensure_ascii = False)
             
 
 app = QGuiApplication(sys.argv)
