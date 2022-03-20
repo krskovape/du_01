@@ -16,7 +16,8 @@ RowLayout {
     property var currentModelItem;
 
     ColumnLayout {
-        width: 200
+        Layout.preferredWidth: 200
+        Layout.maximumWidth: 200
         height: parent.height
         //Layout.fillHeight: true
         Layout.alignment: Qt.AlignTop
@@ -77,42 +78,35 @@ RowLayout {
 
         }
 
-        Row {
-            spacing: 70
-            Layout.alignment: Qt.AlignHCenter
-
-            Row {
-                spacing: 5
-
-                Label {
-                    text: "Od: "
-                }
-                TextInput {
-                    id: minPoInput
-                    text: filtrModel.min_po
-                    Binding {
-                        target: filtrModel
-                        property: "min_po"
-                        value: minPoInput.text
-                    }
+        RowLayout {
+            Label {
+                text: "Od: "
+            }
+            TextInput {
+                id: minPoInput
+                text: filtrModel.min_po
+                Binding {
+                    target: filtrModel
+                    property: "min_po"
+                    value: minPoInput.text
                 }
             }
-            Row {
-                spacing: 5
-
-                Label {
-                    text: "Do: "
-                }
-                TextInput {
-                    id: maxPoInput
-                    text: filtrModel.max_po
-                    Binding {
-                        target: filtrModel
-                        property: "max_po"
-                        value: maxPoInput.text
-                    }
-                }
+            Rectangle {
+                Layout.fillWidth: true
             }
+
+            Label {
+                text: "Do: "
+            }
+            TextInput {
+                id: maxPoInput
+                text: filtrModel.max_po
+                Binding {
+                    target: filtrModel
+                    property: "max_po"
+                    value: maxPoInput.text
+                }
+            }    
         }
 
         Label {
@@ -147,40 +141,34 @@ RowLayout {
 
         }
 
-        Row {
-            spacing: 70
-            Layout.alignment: Qt.AlignHCenter
-
-            Row {
-                spacing: 5
-
-                Label {
-                    text: "Od: "
-                }
-                TextInput {
-                    id: minAreaInput
-                    text: filtrModel.min_area
-                    Binding {
-                        target: filtrModel
-                        property: "min_area"
-                        value: minAreaInput.text
-                    }
+        RowLayout {
+            Label {
+                text: "Od: "
+            }
+            TextInput {
+                id: minAreaInput
+                text: filtrModel.min_area
+                Binding {
+                    target: filtrModel
+                    property: "min_area"
+                    value: minAreaInput.text
                 }
             }
-            Row {
-                spacing: 5
 
-                Label {
-                    text: "Do: "
-                }
-                TextInput {
-                    id: maxAreaInput
-                    text: filtrModel.max_area
-                    Binding {
-                        target: filtrModel
-                        property: "max_area"
-                        value: maxAreaInput.text
-                    }
+            Rectangle {
+                Layout.fillWidth: true
+            }
+        
+            Label {
+                text: "Do: "
+            }
+            TextInput {
+                id: maxAreaInput
+                text: filtrModel.max_area
+                Binding {
+                    target: filtrModel
+                    property: "max_area"
+                    value: maxAreaInput.text
                 }
             }
         }
@@ -194,10 +182,7 @@ RowLayout {
 
         ComboBox {
             id: krajBox
-            //width: parent.width
-            anchors.left: parent.left
-            anchors.right: parent.right
-            Layout.alignment: Qt.AlignHCenter
+            Layout.fillWidth: true
             model: ["všechny","Jihočeský", "Jihomoravský", "Karlovarský", "Královéhradecký", "Liberecký", "Moravskoslezský", "Olomoucký", "Pardubický", "Plzeňský", "Praha", "Středočeský", "Ústecký", "Vysočina", "Zlínský"]
             onActivated: {
                 console.log("kraj: "+currentText)
@@ -245,9 +230,7 @@ RowLayout {
 
         ComboBox {
             id: okresBox
-            anchors.left: parent.left
-            anchors.right: parent.right
-            Layout.alignment: Qt.AlignHCenter
+            Layout.fillWidth: true
             model: ["všechny"]
             onActivated: {
                 console.log("okes: "+currentText)
@@ -256,9 +239,7 @@ RowLayout {
         }
 
         Button {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            Layout.alignment: Qt.AlignHCenter
+            Layout.fillWidth: true
 
             id: filtrButton
             text: "Filtrovat"
@@ -272,9 +253,7 @@ RowLayout {
 
         Button {
             id: saveButton
-            anchors.left: parent.left
-            anchors.right: parent.right
-            Layout.alignment: Qt.AlignHCenter
+            Layout.fillWidth: true
             text: "Uložit"
 
             onClicked: savePopup.open()
