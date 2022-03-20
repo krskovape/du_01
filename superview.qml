@@ -20,16 +20,10 @@ RowLayout {
         Layout.preferredWidth: 200
         Layout.maximumWidth: 200
         height: parent.height
-        //Layout.fillHeight: true
         Layout.alignment: Qt.AlignTop
-        
-        
-        //width: parent.width
-        //height: 500
         spacing: 15
-        //topPadding: 3
-        //bottomPadding: 30
 
+        // ChechBoxes for towns and municipalities
         Row {
             spacing: 5
             topPadding: 3
@@ -48,6 +42,7 @@ RowLayout {
             }
         }
 
+        // Choosing the range of population
         Label {
             text: "Počet obyvatel"
             Layout.alignment: Qt.AlignHCenter
@@ -110,6 +105,7 @@ RowLayout {
             }    
         }
 
+        // Choosing the range of area
         Label {
             textFormat: Text.RichText
             text: "Rozloha [km<sup>2</sup>]"
@@ -174,6 +170,7 @@ RowLayout {
             }
         }
 
+        // Choosing the region
         Label {
             text: "Kraj"
             Layout.alignment: Qt.AlignHCenter
@@ -222,6 +219,7 @@ RowLayout {
             }
         }
 
+        //Choosing the district
         Label {
             text: "Okres"
             Layout.alignment: Qt.AlignHCenter
@@ -239,9 +237,9 @@ RowLayout {
             }
         }
 
+        // Button for calling the filter function
         Button {
             Layout.fillWidth: true
-
             id: filtrButton
             text: "Filtrovat"
 
@@ -252,6 +250,7 @@ RowLayout {
             }
         }
 
+        // Button for saving filtered cities to file
         Button {
             id: saveButton
             Layout.fillWidth: true
@@ -265,6 +264,7 @@ RowLayout {
         Layout.fillWidth: true
         Layout.fillHeight: true
 
+        // Dialog for choosing file to save filtered cities
         FileDialog {
             id: saveFileDialog
             title: "Vyberte soubor pro uložení vyfiltrovaných měst"
@@ -279,12 +279,13 @@ RowLayout {
             onRejected: Qt.quit()
         }
 
+        // The map component
         Plugin {
                 id: mapPlugin
                 name: "osm"
                 PluginParameter {
                     name:"osm.mapping.custom.host"
-                    value:"https://www.openstreetmap.org/#map"  //https://tile.openstreetmap.org/
+                    value:"https://www.openstreetmap.org/#map"
                 }
             }
 
@@ -296,14 +297,9 @@ RowLayout {
             plugin: mapPlugin
             activeMapType: supportedMapTypes[supportedMapTypes.length - 3]
 
-            
-            //visibleRegion: geoshape
-            //visibleRegion: QtPositioning.shape(model.location)
-            center: QtPositioning.coordinate(49.7437572, 15.3386383) // Oslo
-            //center: currentModelItem.location // Center to the selected city
+            // Center set to show the Czech Republic
+            center: QtPositioning.coordinate(49.7437572, 15.3386383)
             zoomLevel: 7.5
-
-            
 
             MapItemView {
                 model: filtrModel
@@ -343,6 +339,7 @@ RowLayout {
         }
     }
     
+    // List of all filtered cities displaying name, area, population, region and symbol
     ListView {
         id: cityList
         width: 160
@@ -350,7 +347,7 @@ RowLayout {
         focus: true
         Layout.alignment: Qt.AlignTop
         Layout.fillHeight: true
-        //currentIndex : -1
+        currentIndex : -1
 
         Component {
             id: cityListDelegate
@@ -397,14 +394,12 @@ RowLayout {
                             text: model.okres
                         }
                     }
-                    //funguje jen na tenhle obrázek, proč?
-                    //source bere jen nezabezpečené images????
+                    
                     Image {
                         height:100
                         width: parent.width
                         fillMode: Image.PreserveAspectFit
-                        //source: "http://i.kym-cdn.com/entries/icons/original/000/002/144/You_Shall_Not_Pass!_0-1_screenshot.jpg" //funguje
-                        //source: "http://upload.wikimedia.org/wikipedia/commons/b/be/Vl%C4%8Deves_CoA.jpg"
+                        //source: "http://i.kym-cdn.com/entries/icons/original/000/002/144/You_Shall_Not_Pass!_0-1_screenshot.jpg" //funguje"
                         source: model.znak
                     }
                 }
@@ -421,7 +416,7 @@ RowLayout {
             delegate: cityListDelegate
         }
 
-        // na currentModelItem připojí aktuální cityListDelegateModel
+        // When current item of the list is changed, update the currentModelItem property and center of the map
         onCurrentItemChanged: {
             currentModelItem = cityListDelegateModel.items.get(cityList.currentIndex).model
             mapaObce.center= currentModelItem.location
