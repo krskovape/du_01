@@ -5,6 +5,7 @@ import QtLocation 5.14
 import QtPositioning 5.14
 import QtQuick.Layouts 1.15
 import QtPositioning 5.2
+import QtQuick.Dialogs 1.3
 
 
 RowLayout {
@@ -256,7 +257,7 @@ RowLayout {
             Layout.fillWidth: true
             text: "Uložit"
 
-            onClicked: savePopup.open()
+            onClicked: saveFileDialog.open()
         }
     }
 
@@ -264,38 +265,18 @@ RowLayout {
         Layout.fillWidth: true
         Layout.fillHeight: true
 
-        Popup {
-            id: savePopup
-            width: 500
-            height: 150
-            topPadding: 30
-            leftPadding: 30
-            closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-
-            Column {
-                spacing: 20
-
-                Text {
-                    text: "Zvolený soubor musí mít příponu '.json'"
-                }
-
-                TextInput {
-                    id: saveInput
-                    text: filtrModel.output_file
-
-                    Binding {
-                        target: filtrModel
-                        property: "output_file"
-                        value: saveInput.text
-                    }
-                }
-                
-                Button {
-                    id: fileSaveButton
-                    text: "Vybrat soubor a uložit"
-                    onClicked: filtrModel.save_to_file()
-                }
+        FileDialog {
+            id: saveFileDialog
+            title: "Vyberte soubor pro uložení vyfiltrovaných měst"
+            folder: shortcuts.home
+            selectExisting: false
+            nameFilters: ["*.json"]
+            onAccepted: {
+                console.log("Vybrali jste soubor: " + saveFileDialog.fileUrls)
+                filtrModel.filtrovat()
+                Qt.quit()
             }
+            onRejected: Qt.quit()
         }
 
         Plugin {
