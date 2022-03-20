@@ -74,7 +74,7 @@ class FiltrModel(QAbstractListModel):
     
     def set_min_area(self,val):
         if val != self.min_area:
-            self._min_area = val
+            self._min_area = int(val)
             self.min_area_changed.emit()
     
     min_area_changed = Signal()
@@ -86,7 +86,7 @@ class FiltrModel(QAbstractListModel):
     
     def set_max_area(self,val):
         if val != self.max_area:
-            self._max_area = val
+            self._max_area = int(val)
             self.max_area_changed.emit()
     
     max_area_changed = Signal()
