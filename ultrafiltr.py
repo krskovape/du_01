@@ -8,13 +8,13 @@ import typing
 import sys
 import json
 
-#VIEW_URL = "ultraview.qml"
 VIEW_URL = "superview.qml"
 PUVODNI_LIST_FILE = "data_ukol1_znak.json"
 
-
+#Class for maintaining list of tasks
 class FiltrModel(QAbstractListModel):
 
+    #Enum with added custom roles
     class Roles(Enum):
         LOCATION = QtCore.Qt.UserRole+0
         AREA = QtCore.Qt.UserRole+1
@@ -24,6 +24,7 @@ class FiltrModel(QAbstractListModel):
         OKRES = QtCore.Qt.UserRole+5
         ZNAK = QtCore.Qt.UserRole+6
 
+    #Initialize and load list from given file
     def __init__ (self,filename=None):
         QAbstractListModel.__init__(self)
         self._min_po = 0
@@ -34,17 +35,15 @@ class FiltrModel(QAbstractListModel):
         self._mesta = False
         self.kraj_filtr = ["všechny"]
         self.okres_filtr = ["všechny"]
-        #self.kraj_all = ["Jihočeský", "Jihomoravský", "Karlovarský", "Královéhradecký", "Liberecký", "Moravskoslezský", "Olomoucký", "Pardubický", "Plzeňský", "Praha", "Středočeský", "Ústecký", "Vysočina", "Zlínský"]
-        #self.okres_all = ["České Budějovice", "Český Krumlov", "Jindřichův Hradec", "Písek", "Prachatice", "Strakonice", "Tábor", "Blansko", "Brno-město", "Brno-venkov", "Břeclav", "Hodonín", "Vyškov", "Znojmo", "Cheb", "Karlovy Vary", "Sokolov", "Hradec Králové", "Jičín", "Náchod", "Rychnov nad Kněžnou", "Trutnov", "Česká Lípa", "Jablonec nad Nisou", "Liberec", "Semily", "Bruntál", "Frýdek-Místek", "Karviná", "Nový Jičín", "Opava", "Ostrava-město", "Jeseník", "Olomouc", "Prostějov", "Přerov", "Šumperk", "Chrudim", "Pardubice", "Svitavy", "Ústí nad Orlicí", "Domažlice", "Klatovy", "Plzeň-jih", "Plzeň-město", "Plzeň-sever", "Rokycany", "Tachov", "Praha", "Benešov", "Beroun", "Kladno", "Kolín", "Kutná Hora", "Mělník", "Mladá Boleslav", "Nymburk", "Praha-východ", "Praha-západ", "Příbram", "Rakovník", "Děčín", "Chomutov", "Litoměřice", "Louny", "Most", "Teplice", "Ústí nad Labem", "Havlíčkův Brod", "Jihlava", "Pelhřimov", "Třebíč", "Žďár nad Sázavou", "Kroměříž", "Uherské Hradiště", "Vsetín", "Zlín"]
         self.kraj_all = set()
         self.okres_all = set()
-        self._output_file = "Sem zadejte cestu k výstupnímu souboru"
+        self._output_file = ""
         self.city_list = []
         self.puvodni_list = []
         if filename:
             self.load_from_json(filename)
     
-    #property min_po
+    #Property min_po
     def get_min_po(self):
         return self._min_po
     
@@ -56,7 +55,7 @@ class FiltrModel(QAbstractListModel):
     min_po_changed = Signal()
     min_po = Property(int, get_min_po, set_min_po, notify=min_po_changed)
 
-    #property max_po
+    #Property max_po
     def get_max_po(self):
         return self._max_po
     
@@ -68,7 +67,7 @@ class FiltrModel(QAbstractListModel):
     max_po_changed = Signal()
     max_po = Property(int, get_max_po, set_max_po, notify=max_po_changed)
 
-    #property min_area
+    #Property min_area
     def get_min_area(self):
         return self._min_area
     
@@ -80,7 +79,7 @@ class FiltrModel(QAbstractListModel):
     min_area_changed = Signal()
     min_area = Property(float, get_min_area, set_min_area, notify=min_area_changed)
 
-    #property max_area
+    #Property max_area
     def get_max_area(self):
         return self._max_area
     
@@ -92,7 +91,7 @@ class FiltrModel(QAbstractListModel):
     max_area_changed = Signal()
     max_area = Property(float, get_max_area, set_max_area, notify=max_area_changed)
 
-    #property obce
+    #Property obce
     def get_obce(self):
         return self._obce
     
@@ -104,7 +103,7 @@ class FiltrModel(QAbstractListModel):
     obce_changed = Signal()
     obce = Property(bool, get_obce, set_obce, notify=obce_changed)
 
-    #property mesta
+    #Property mesta
     def get_mesta(self):
         return self._mesta
     
@@ -116,7 +115,7 @@ class FiltrModel(QAbstractListModel):
     mesta_changed = Signal()
     mesta = Property(bool, get_mesta, set_mesta, notify=mesta_changed)
 
-    #property output_file
+    #Property output_file
     def get_output_file(self):
         return self._output_file
     
@@ -128,31 +127,35 @@ class FiltrModel(QAbstractListModel):
     output_file_changed = Signal()
     output_file = Property(str, get_output_file, set_output_file, notify=output_file_changed)
 
-    
+    #Load list of cities from given file
     def load_from_json(self,filename):
         with open(filename,encoding="utf-8") as f:
             self.puvodni_list = json.load(f)
 
-            # Create QGeoCoordinate from the original JSON location
             for c in self.puvodni_list:
+                #Create QGeoCoordinate from the original JSON location
                 pos = c['location']
                 lon,lat = pos.split("(")[1].split(")")[0].split(" ")
                 c['location'] = QGeoCoordinate(float(lat),float(lon))
 
+                #Add value of 'krajLabel' and 'okresLabel' to set property
                 self.kraj_all.add(c['krajLabel'])
                 self.okres_all.add(c['okresLabel'])
 
+                #Check if feature contains attribute 'mestoLabel' and set value to 'obec' if not
                 if "mestoLabel" not in c:
                     c["mestoLabel"] = "obec"
                 
+                #Check if feature contains URL of its symbol, add URL of white rectangle if not
                 if "znak" not in c:
                     c["znak"] = "https://www.meme-arsenal.com/memes/422425412debbe780318e9bfee9efdac.jpg" #bílý obdélník
-                    #c["znak"] = "https://m.media-amazon.com/images/I/212yLYOAlcL._AC_.jpg"  #žlutý obdélník
 
+    #Return number of cities in the list
     def rowCount(self, parent:QtCore.QModelIndex=...) -> int:
         """ Return number of cities in the list"""
         return len(self.city_list)
     
+    #For given index and role return information of the city
     def data(self, index:QtCore.QModelIndex, role:int=...) -> typing.Any:
         if role == QtCore.Qt.DisplayRole: # On DisplayRole return name
             return self.city_list[index.row()]["obecLabel"]
@@ -162,19 +165,18 @@ class FiltrModel(QAbstractListModel):
             return self.city_list[index.row()]["area"]
         elif role == self.Roles.POPULATION.value: # On population role return population
             return self.city_list[index.row()]["population"]
-        elif role == self.Roles.TYP.value:
+        elif role == self.Roles.TYP.value: # On typ role return city/municipality
             return self.city_list[index.row()]["mestoLabel"]
-        elif role == self.Roles.KRAJ.value: 
+        elif role == self.Roles.KRAJ.value: # On kraj role return name of the region
             return self.city_list[index.row()]["krajLabel"]
-        elif role == self.Roles.OKRES.value: 
+        elif role == self.Roles.OKRES.value: # On okres role return name of the district
             return self.city_list[index.row()]["okresLabel"]
-        elif role == self.Roles.ZNAK.value: 
+        elif role == self.Roles.ZNAK.value: # On znak role return URL of city's symbol
             return self.city_list[index.row()]["znak"]
     
+    #Returns dict with role numbers and role names for default and custom roles together
     def roleNames(self) -> typing.Dict[int, QByteArray]:
-        """Returns dict with role numbers and role names for default and custom roles together"""
-        # Append custom roles to the default roles and give them names for a usage in the QML
-        roles = super().roleNames() #vrátí seznam původních rolí
+        roles = super().roleNames()
         roles[self.Roles.LOCATION.value] = QByteArray(b'location')
         roles[self.Roles.AREA.value] = QByteArray(b'area')
         roles[self.Roles.POPULATION.value] = QByteArray(b'population')
@@ -182,21 +184,23 @@ class FiltrModel(QAbstractListModel):
         roles[self.Roles.KRAJ.value] = QByteArray(b'kraj')
         roles[self.Roles.OKRES.value] = QByteArray(b'okres')
         roles[self.Roles.ZNAK.value] = QByteArray(b'znak')
-        #print(roles)
         return roles
 
+    #Sets the value of property kraj_filtr
     @Slot(str)
     def set_kraj(self, val: str):
         self.kraj_filtr = []
         self.kraj_filtr.append(val)
         print(self.kraj_filtr)
 
+    #Sets the value of property okres_filtr
     @Slot(str)
     def set_okres(self, val: str):
         self.okres_filtr = []
         self.okres_filtr.append(val)
         print(self.okres_filtr)
     
+    #Filters the original list of cities
     @Slot()
     def filtrovat(self):
         #Delete all rows from city_list
@@ -204,19 +208,20 @@ class FiltrModel(QAbstractListModel):
         self.city_list = []
         self.endRemoveRows()
 
-        print(f"kraj_all: {len(self.kraj_all)}")
-        print(f"okres_all: {len(self.okres_all)}")
-
-        input_idx = 0
+        #Set values of kraj_filtr and okres_filtr if all menu items are chosen
         if "všechny" in self.kraj_filtr:
             self.kraj_filtr = self.kraj_all
         
         if "všechny" in self.okres_filtr:
             self.okres_filtr = self.okres_all
 
+        #Filter the original list and add items to new one
+        input_idx = 0
         for feature in self.puvodni_list:
             pocet_obyv = int(feature["population"])
             rozloha = float(feature["area"])
+
+            #Municipalities
             if self.obce == True:
                 if feature["mestoLabel"] == "obec"\
                     and pocet_obyv > self.min_po and pocet_obyv < self.max_po\
@@ -228,8 +233,8 @@ class FiltrModel(QAbstractListModel):
                     self.city_list.append(feature)
                     self.endInsertRows()
                     input_idx += 1
-                    #print(f"přidávám feature {input_idx}")
             
+            #Towns
             if self.mesta == True:
                 if feature["mestoLabel"] == "město v Česku"\
                     and pocet_obyv > self.min_po and pocet_obyv < self.max_po\
@@ -241,14 +246,19 @@ class FiltrModel(QAbstractListModel):
                     self.city_list.append(feature)
                     self.endInsertRows()
                     input_idx += 1
-
-        #print(self.city_list)    
+    
         print(f"Načteno {input_idx} obcí.")
     
+    #Save filtered list of cities to a file
     # @Slot()
     # def save_to_file(self):
     #     with open(self.output_file, 'w', encoding ='utf8') as json_file:
     #         json.dump(self.city_list, json_file, ensure_ascii = False)
+
+    @Slot(str)
+    def save_to_file(self, file):
+        with open(file, 'w', encoding ='utf8') as json_file:
+            json.dump(self.city_list, json_file, ensure_ascii = False)
             
 
 app = QGuiApplication(sys.argv)
