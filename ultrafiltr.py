@@ -146,8 +146,8 @@ class FiltrModel(QAbstractListModel):
                     c["mestoLabel"] = "obec"
                 
                 if "znak" not in c:
-                    #c["znak"] = "https://www.meme-arsenal.com/memes/422425412debbe780318e9bfee9efdac.jpg" #bílý obdélník
-                    c["znak"] = "https://m.media-amazon.com/images/I/212yLYOAlcL._AC_.jpg"  #žlutý obdélník
+                    c["znak"] = "https://www.meme-arsenal.com/memes/422425412debbe780318e9bfee9efdac.jpg" #bílý obdélník
+                    #c["znak"] = "https://m.media-amazon.com/images/I/212yLYOAlcL._AC_.jpg"  #žlutý obdélník
 
     def rowCount(self, parent:QtCore.QModelIndex=...) -> int:
         """ Return number of cities in the list"""

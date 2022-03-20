@@ -338,7 +338,7 @@ RowLayout {
     
     ListView {
         id: cityList
-        width: 250
+        width: 160
         height: parent.height
         focus: true
         Layout.alignment: Qt.AlignTop
@@ -351,7 +351,8 @@ RowLayout {
                 width: parent.width
                 height: childrenRect.height
                 Column {
-                    bottomPadding: 7
+                    bottomPadding: 8
+                    spacing: 2
                     Text {
                         text: model.display
                         color: {
@@ -392,11 +393,12 @@ RowLayout {
                     //funguje jen na tenhle obrázek, proč?
                     //source bere jen nezabezpečené images????
                     Image {
-                        height:150
-                        width: 150
+                        height:100
+                        width: parent.width
+                        fillMode: Image.PreserveAspectFit
                         //source: "http://i.kym-cdn.com/entries/icons/original/000/002/144/You_Shall_Not_Pass!_0-1_screenshot.jpg" //funguje
-                        source: "http://upload.wikimedia.org/wikipedia/commons/b/be/Vl%C4%8Deves_CoA.jpg"
-                        //source: model.znak
+                        //source: "http://upload.wikimedia.org/wikipedia/commons/b/be/Vl%C4%8Deves_CoA.jpg"
+                        source: model.znak
                     }
                 }
                 MouseArea {
