@@ -311,6 +311,13 @@ RowLayout {
                     coordinate: model.location
                     sourceItem: Column {
                         spacing: 2
+                        Image {
+                            height: 50
+                            width: 50
+                            fillMode: Image.PreserveAspectFit
+                            //source: "http://i.kym-cdn.com/entries/icons/original/000/002/144/You_Shall_Not_Pass!_0-1_screenshot.jpg" //funguje
+                            source: model.znak
+                        }
                         Text {
                             text: model.display
                             color: {
