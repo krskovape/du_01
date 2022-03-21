@@ -274,8 +274,8 @@ RowLayout {
             nameFilters: ["*.json"]
             onAccepted: {
                 console.log("Vybrali jste soubor: " + saveFileDialog.fileUrl)
-                //filtrModel.output_file = saveFileDialog.fileUrl
-                filtrModel.save_to_file(saveFileDialog.fileUrl)
+                filtrModel.output_file = saveFileDialog.fileUrl.toString().replace("file:///","")
+                filtrModel.save_to_file()
                 Qt.quit()
             }
             onRejected: Qt.quit()

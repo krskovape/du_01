@@ -1,3 +1,4 @@
+from textwrap import indent
 from PySide2.QtCore import QObject, Signal, Slot, Property, QUrl, QAbstractListModel, QByteArray
 from PySide2.QtGui import QGuiApplication
 from PySide2.QtQuick import QQuickView
@@ -254,10 +255,10 @@ class FiltrModel(QAbstractListModel):
     #Save filtered list of cities to a file
     @Slot()
     def save_to_file(self):
-        with open("vystup.json", 'w', encoding ='utf8') as json_file:
+        with open(self.output_file, 'w', encoding ='utf8') as json_file:    
             for feature in self.city_list:
                 feature["location"] = QGeoCoordinate.toString(feature["location"])
-            json.dump(self.city_list, json_file, ensure_ascii = False)
+            json.dump(self.city_list, json_file, ensure_ascii = False, indent=4)
             
 
 app = QGuiApplication(sys.argv)
