@@ -221,6 +221,8 @@ class FiltrModel(QAbstractListModel):
             pocet_obyv = int(feature["population"])
             rozloha = float(feature["area"])
 
+        
+
             #Municipalities
             if self.obce == True:
                 if feature["mestoLabel"] == "obec"\
@@ -250,14 +252,11 @@ class FiltrModel(QAbstractListModel):
         print(f"Načteno {input_idx} obcí.")
     
     #Save filtered list of cities to a file
-    # @Slot()
-    # def save_to_file(self):
-    #     with open(self.output_file, 'w', encoding ='utf8') as json_file:
-    #         json.dump(self.city_list, json_file, ensure_ascii = False)
-
-    @Slot(str)
-    def save_to_file(self, file):
-        with open(file, 'w', encoding ='utf8') as json_file:
+    @Slot()
+    def save_to_file(self):
+        with open("vystup.json", 'w', encoding ='utf8') as json_file:
+            for feature in self.city_list:
+                feature["location"] = QGeoCoordinate.toString(feature["location"])
             json.dump(self.city_list, json_file, ensure_ascii = False)
             
 
