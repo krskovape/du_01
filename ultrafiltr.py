@@ -222,8 +222,6 @@ class FiltrModel(QAbstractListModel):
             pocet_obyv = int(feature["population"])
             rozloha = float(feature["area"])
 
-        
-
             #Municipalities
             if self.obce == True:
                 if feature["mestoLabel"] == "obec"\

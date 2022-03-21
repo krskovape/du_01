@@ -280,11 +280,6 @@ RowLayout {
             }
             onRejected: Qt.quit()
         }
-        // Binding {
-        //     target: filtrModel
-        //     property: "output_file"
-        //     value: saveFileDialog.fileUrl
-        // }
 
         // The map component
         Plugin {
